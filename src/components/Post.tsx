@@ -37,7 +37,7 @@ export function Post({author, publishedAt, content}:PostProps){
         event.target.setCustomValidity('')
         setNewCommentText(event.target.value)
     }
-
+    
     const publishedAtDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'",{
         locale: ptBR
     })
@@ -53,9 +53,8 @@ export function Post({author, publishedAt, content}:PostProps){
             author:"Usuário não conectado",
             comment:newCommentText,
             //trocar data aqui
-            publishedAt: toDate(new Date())
+            publishedAt: new Date()
         }
-        newCommentText
         setComments([...comments,newComment])
         setNewCommentText('')
     }

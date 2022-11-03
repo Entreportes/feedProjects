@@ -34,7 +34,7 @@ const posts:PostProps[] = [
       {type:'link', content: 'https://natrave-copa22.vercel.app/'},
 
     ],
-    publishedAt: parseISO('2022-11-01 19:00:00')
+    publishedAt: parseISO('2022-11-01T19:00:00Z')
   },
   {
     id:2,
@@ -49,7 +49,7 @@ const posts:PostProps[] = [
       {type:'link', content: 'https://github.com/renatomh/nlw-esports-web'},
 
     ],
-    publishedAt: parseISO('2022-11-03 11:00:00')
+    publishedAt: parseISO('2022-11-03T11:00:00Z')
   },
   {
     id:3,
@@ -64,7 +64,7 @@ const posts:PostProps[] = [
       {type:'link', content: 'jane.design/doctorcare'},
 
     ],
-    publishedAt: parseISO('2022-05-03 20:00:00')
+    publishedAt: parseISO('2022-05-03T20:00:00Z')
   }
 ] 
 
