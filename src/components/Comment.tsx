@@ -3,13 +3,18 @@ import { useState } from 'react'
 import { Avatar } from './Avatar'
 import styles from './Comment.module.css'
 
+import { format, formatDistanceToNow } from "date-fns";
+import ptBR from 'date-fns/locale/pt-BR'
+
 interface CommentProps{
     content: string;
     onDeleteComment: (comment: string) => void;
+    publishedAt: Date;
+    author: string;
 }
 
 
-export function Comment({content, onDeleteComment}:CommentProps){
+export function Comment({content, onDeleteComment, publishedAt, author}:CommentProps){
 
     const [likeCount, setLikeCount] = useState(0);
 
@@ -18,12 +23,17 @@ export function Comment({content, onDeleteComment}:CommentProps){
             return likeCount + 1
         })
     }
-
+    const publishedAtDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'",{
+        locale: ptBR
+    })
 
     function handleDeleteComment(){
         onDeleteComment(content)
     }
-
+    const publishedDateRelativeToNow= formatDistanceToNow(publishedAt,{
+        locale: ptBR,
+        addSuffix: true,
+    })
     return(
         <div className={styles.comment}>
             <Avatar
@@ -34,8 +44,10 @@ export function Comment({content, onDeleteComment}:CommentProps){
                 <div className={styles.commentContent}>
                     <header>
                         <div className={styles.authorAndTime}>
-                            <strong>Lucas</strong>
-                            <time title="1 de novembro" dateTime='2022-01-11 12:30:00'>Cerca de 1h atrás</time>
+                            <strong>{author}</strong>
+                            <time title={publishedAtDateFormatted} dateTime={publishedAt.toISOString()}>
+                                {publishedDateRelativeToNow}
+                            </time>
                         </div>
                         <button onClick={handleDeleteComment} title="Deletar comentário">
                             <Trash size={20}/>

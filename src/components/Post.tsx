@@ -2,7 +2,7 @@ import { Avatar } from './Avatar'
 import { Comment } from './Comment'
 import styles from './Post.module.css'
 
-import { format, formatDistance, formatDistanceToNow } from "date-fns";
+import { format, formatDistanceToNow } from "date-fns";
 import ptBR from 'date-fns/locale/pt-BR'
 import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react';
 
@@ -20,13 +20,16 @@ interface PostProps {
         content: string;
     }[]
 }
+interface CommentProps{
+    author: string
+    comment: string;
+    publishedAt: Date;
+}
 
 
 export function Post({author, publishedAt, content}:PostProps){
 
-    const [comments,setComments] = useState([
-        'Post muito bacana!'
-    ])
+    const [comments,setComments] = useState<CommentProps[]>([])
 
     const [newCommentText,setNewCommentText] = useState('');
 
@@ -46,7 +49,13 @@ export function Post({author, publishedAt, content}:PostProps){
 
     function handleCreateNewComment(event: FormEvent) {
         event.preventDefault()
-        setComments([...comments,newCommentText])
+        const newComment:CommentProps = {
+            author:"Usuário não conectado",
+            comment:newCommentText,
+            publishedAt:new Date()
+        }
+        newCommentText
+        setComments([...comments,newComment])
         setNewCommentText('')
     }
 
@@ -58,7 +67,7 @@ export function Post({author, publishedAt, content}:PostProps){
         console.log(`Deletar comentario ${commentToDelete} .`)
 
         const commentWithoutDeleteOne = comments.filter(comment =>{
-            return comment !== commentToDelete
+            return comment.comment !== commentToDelete
         })
         setComments(commentWithoutDeleteOne)
     }
@@ -108,9 +117,11 @@ export function Post({author, publishedAt, content}:PostProps){
                 {comments.map(comment => {
                     return (
                         <Comment
-                            key={comment}
-                            content={comment}
+                            key={comment.comment}
+                            content={comment.comment}
                             onDeleteComment={deleteComment}
+                            publishedAt={comment.publishedAt}
+                            author={comment.author}
                         />
                     )
                 })}
