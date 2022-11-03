@@ -2,7 +2,7 @@ import { Avatar } from './Avatar'
 import { Comment } from './Comment'
 import styles from './Post.module.css'
 
-import { format, formatDistanceToNow } from "date-fns";
+import { format, formatDistanceToNow,  } from "date-fns";
 import ptBR from 'date-fns/locale/pt-BR'
 import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react';
 
@@ -52,7 +52,7 @@ export function Post({author, publishedAt, content}:PostProps){
         const newComment:CommentProps = {
             author:"Usuário não conectado",
             comment:newCommentText,
-            publishedAt:new Date()
+            publishedAt: new Date('2022-11-03 11:00:00')
         }
         newCommentText
         setComments([...comments,newComment])
