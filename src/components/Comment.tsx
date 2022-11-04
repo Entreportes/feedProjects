@@ -23,9 +23,10 @@ export function Comment({content, onDeleteComment, publishedAt, author}:CommentP
             return likeCount + 1
         })
     }
-    const publishedAtDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'",{
-        locale: ptBR
-    })
+    // const publishedAtDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'",{
+    //     locale: ptBR
+    // })
+    const publishedAtDateFormatted = "publicado hj"
 
     function handleDeleteComment(){
         onDeleteComment(content)
