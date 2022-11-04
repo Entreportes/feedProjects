@@ -2,7 +2,7 @@ import { Avatar } from './Avatar'
 import { Comment } from './Comment'
 import styles from './Post.module.css'
 
-import { format, formatDistanceToNow, parseISO, getDate, toDate } from "date-fns";
+import { format, formatDistanceToNow, parseISO, getDate, toDate, parse } from "date-fns";
 import ptBR from 'date-fns/locale/pt-BR'
 import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react';
 
@@ -29,7 +29,12 @@ interface CommentProps{
 
 export function Post({author, publishedAt, content}:PostProps){
 
-    const [comments,setComments] = useState<CommentProps[]>([])
+    const [comments,setComments] = useState<CommentProps[]>([{
+        author: "Autor teste",
+        comment: "comentario teste",
+        publishedAt: parseISO('2022-11-04 17:18:00')
+
+    }])
 
     const [newCommentText,setNewCommentText] = useState('');
 
