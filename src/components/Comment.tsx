@@ -26,15 +26,14 @@ export function Comment({content, onDeleteComment, publishedAt, author}:CommentP
     // const publishedAtDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'",{
     //     locale: ptBR
     // })
-    const publishedAtDateFormatted = "publicado hj"
 
     function handleDeleteComment(){
         onDeleteComment(content)
     }
-    const publishedDateRelativeToNow= formatDistanceToNow(publishedAt,{
-        locale: ptBR,
-        addSuffix: true,
-    })
+    // const publishedDateRelativeToNow= formatDistanceToNow(publishedAt,{
+    //     locale: ptBR,
+    //     addSuffix: true,
+    // })
     return(
         <div className={styles.comment}>
             <Avatar
@@ -46,9 +45,9 @@ export function Comment({content, onDeleteComment, publishedAt, author}:CommentP
                     <header>
                         <div className={styles.authorAndTime}>
                             <strong>{author}</strong>
-                            <time title={publishedAtDateFormatted} dateTime={publishedAt.toISOString()}>
+                            {/* <time title={publishedAtDateFormatted} dateTime={publishedAt.toISOString()}>
                                 {publishedDateRelativeToNow}
-                            </time>
+                            </time> */}
                         </div>
                         <button onClick={handleDeleteComment} title="Deletar comentário">
                             <Trash size={20}/>
