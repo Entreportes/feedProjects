@@ -116,7 +116,7 @@ export function Post({author, publishedAt, content}:PostProps){
                     onInvalid={handleNewCommentInvalid}
                 />
                 <footer>
-                    <button type='submit' disabled={isNewCommentEmpty}>Publicar</button>
+                    <button type='submit' onClick={handleCreateNewComment} disabled={isNewCommentEmpty}>Publicar</button>
                 </footer>
             </form>
             <div className={styles.commentFormList}>
