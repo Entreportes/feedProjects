@@ -45,7 +45,7 @@ export function Comment({content, onDeleteComment, publishedAt, author}:CommentP
                     <header>
                         <div className={styles.authorAndTime}>
                             <strong>{author}</strong>
-                            <time title={publishedAtDateFormatted} dateTime={publishedAt.toISOString()}>
+                            <time title={"publishedAtDateFormatted"} dateTime={publishedAt.toISOString()}>
                                 {publishedDateRelativeToNow}
                             </time>
                         </div>
