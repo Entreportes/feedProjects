@@ -46,7 +46,7 @@ export function Comment({content, onDeleteComment, publishedAt, author}:CommentP
                         <div className={styles.authorAndTime}>
                             <strong>{author}</strong>
                             <time title={"publishedAtDateFormatted"} dateTime={publishedAt.toISOString()}>
-                                {publishedDateRelativeToNow}
+                                "publishedDateRelativeToNow"
                             </time>
                         </div>
                         <button onClick={handleDeleteComment} title="Deletar comentário">
