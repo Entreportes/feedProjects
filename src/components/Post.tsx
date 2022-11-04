@@ -54,14 +54,15 @@ export function Post({author, publishedAt, content}:PostProps){
 
     function handleCreateNewComment(event: FormEvent) {
         event.preventDefault()
+        console.log('entrou aqui')
         const newComment:CommentProps = {
             author:"Usuário não conectado",
             comment:newCommentText,
-            //trocar data aqui
-            publishedAt: parseISO('2022-11-03 19:00:00')
+            publishedAt: new Date()
         }
         setComments([...comments,newComment])
         setNewCommentText('')
+        console.log('passou')
     }
 
     function handleNewCommentInvalid(event: InvalidEvent<HTMLTextAreaElement>){
