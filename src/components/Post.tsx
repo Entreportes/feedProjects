@@ -54,7 +54,7 @@ export function Post({author, publishedAt, content}:PostProps){
 
     function handleCreateNewComment(event: FormEvent) {
         console.log('entrou aqui')
-        event.preventDefault()
+        //event.preventDefault()
         const newComment:CommentProps = {
             author:"Usuário não conectado",
             comment:newCommentText,
