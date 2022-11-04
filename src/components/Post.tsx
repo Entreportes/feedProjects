@@ -53,7 +53,7 @@ export function Post({author, publishedAt, content}:PostProps){
             author:"Usuário não conectado",
             comment:newCommentText,
             //trocar data aqui
-            publishedAt: parseISO('2022-11-03T19:00:00Z')
+            publishedAt: parseISO('2022-11-03 19:00:00')
         }
         setComments([...comments,newComment])
         setNewCommentText('')
