@@ -108,6 +108,7 @@
     color: var(--white);
     font-weight: bold;
     cursor: pointer;
+    disableTouchRipple= true;
 
     transition: color 0.2s, background-color 0.2s;
 }
