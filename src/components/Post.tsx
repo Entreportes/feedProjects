@@ -32,7 +32,7 @@ export function Post({author, publishedAt, content}:PostProps){
     const [comments,setComments] = useState<CommentProps[]>([{
         author: "Autor teste",
         comment: "comentario teste",
-        publishedAt: parseISO('2022-11-04 17:18:00')
+        publishedAt: new Date()
 
     }])
 
