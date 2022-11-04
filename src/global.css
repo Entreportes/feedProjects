@@ -17,7 +17,7 @@
 
 :focus{
   outline: transparent;
-  bow-shadow: 0 0 0 2px var(--green-500)
+  bow-shadow 0 0 0 2px var(--green-500);
 }
 
 body{

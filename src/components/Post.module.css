@@ -16,7 +16,7 @@
 }
 
 .content p{
-    ,argint-top: 1rem;
+    margin-top: 1rem;
 
 }
 
@@ -48,7 +48,7 @@
 }
 
 .authorInfo strong{
-    diplay: block;
+    display: block;
     color: var(--gray-100);
     line-height: 1.6;
 
@@ -67,7 +67,7 @@
 /* COMENTARIO */
 
 .commentForm{
-    widht: 100%;
+    width: 100%;
     margtin-top: 1.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--gray-600);
