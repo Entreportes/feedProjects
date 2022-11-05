@@ -31,12 +31,7 @@ interface CommentProps{
 
 export function Post({author, publishedAt, content}:PostProps){
 
-    const [comments,setComments] = useState<CommentProps[]>([{
-        author: "Autor teste",
-        comment: "comentario teste",
-        publishedAt: new Date()
-
-    }])
+    const [comments,setComments] = useState<CommentProps[]>([])
 
     const [newCommentText,setNewCommentText] = useState('');
 
