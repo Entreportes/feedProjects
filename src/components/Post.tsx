@@ -54,6 +54,7 @@ export function Post({author, publishedAt, content}:PostProps){
 
     function handleCreateNewComment() {
         console.log('entrou aqui')
+        setNewCommentText('entrou no handleCreateNewComment')
         //event.preventDefault()
         const newComment:CommentProps = {
             author:"Usuário não conectado",
@@ -61,7 +62,7 @@ export function Post({author, publishedAt, content}:PostProps){
             publishedAt: new Date()
         }
         setComments([...comments,newComment])
-        setNewCommentText('')
+        //setNewCommentText('')
         console.log('passou')
     }
 
