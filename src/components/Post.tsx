@@ -52,7 +52,7 @@ export function Post({author, publishedAt, content}:PostProps){
         addSuffix: true,
     })
 
-    function handleCreateNewComment(event: FormEvent) {
+    function handleCreateNewComment() {
         console.log('entrou aqui')
         //event.preventDefault()
         const newComment:CommentProps = {
