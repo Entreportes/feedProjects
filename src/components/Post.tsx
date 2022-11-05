@@ -4,7 +4,9 @@ import styles from './Post.module.css'
 
 import { format, formatDistanceToNow, parseISO, getDate, toDate, parse } from "date-fns";
 import ptBR from 'date-fns/locale/pt-BR'
-import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, InvalidEvent, useState} from 'react';
+
+
 
 interface Author{
     name: string;
@@ -54,7 +56,6 @@ export function Post({author, publishedAt, content}:PostProps){
 
     function handleCreateNewComment() {
         console.log('entrou aqui')
-        setNewCommentText('entrou no handleCreateNewComment')
         //event.preventDefault()
         const newComment:CommentProps = {
             author:"Usuário não conectado",
@@ -62,7 +63,7 @@ export function Post({author, publishedAt, content}:PostProps){
             publishedAt: new Date()
         }
         setComments([...comments,newComment])
-        //setNewCommentText('')
+        setNewCommentText('')
         console.log('passou')
     }
 
@@ -106,7 +107,6 @@ export function Post({author, publishedAt, content}:PostProps){
                 }
                })}
             </div>
-            {/* <form onSubmit={handleCreateNewComment} className={styles.commentForm}> */}
             <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
                 <strong>Deixe seu feedback</strong>
                 <textarea
@@ -115,11 +115,11 @@ export function Post({author, publishedAt, content}:PostProps){
                     onChange={handleNewCommentChange}
                     value={newCommentText}
                     required={true}
-                    //onInvalid={handleNewCommentInvalid}
+                    onInvalid={handleNewCommentInvalid}
                 />
-                <footer>
-                    <button type='submit' onClick={handleCreateNewComment} disabled={isNewCommentEmpty}>Publicar</button>
-                </footer>
+                {/* <footer> */}
+                    <button type='submit'  onClick={handleCreateNewComment} disabled={isNewCommentEmpty}>Publicar</button>
+                {/* </footer> */}
             </form>
             <div className={styles.commentFormList}>
                 {comments.map(comment => {
