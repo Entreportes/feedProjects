@@ -1,6 +1,7 @@
 import { Avatar } from './Avatar'
 import { Comment } from './Comment'
 import styles from './Post.module.css'
+import YouTube from 'react-youtube';
 
 import { format, formatDistanceToNow, parseISO, getDate, toDate, parse } from "date-fns";
 import ptBR from 'date-fns/locale/pt-BR'
@@ -101,6 +102,11 @@ export function Post({author, publishedAt, content}:PostProps){
                     return <p key={line.content}><a href={line.content}>{line.content}</a></p>
                 }
                })}
+               <div>
+                <YouTube
+                    videoId='pWMGGWCNzGA'
+                />
+               </div>
             </div>
             <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
                 <strong>Deixe seu feedback</strong>
