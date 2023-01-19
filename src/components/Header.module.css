@@ -1,7 +1,7 @@
 .header {
     background: var(--gray-800);
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     padding: 1.25rem 0; /* //1 rem eh 16 px 1.25rem eixo y e 0 eixo x */
     height: 5rem;
@@ -10,4 +10,9 @@
 .header img {
     height: 3rem;
     margin-right: 1rem;
+}
+.header button {
+    background: transparent;
+    color: var(--gray-100)
+
 }

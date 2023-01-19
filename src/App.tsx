@@ -16,7 +16,7 @@ interface PostProps{
   author: Author;
   publishedAt: Date;
   content: {
-    type: 'paragraph'|'link';
+    type: 'paragraph'|'link'|'video';
     content: string;
   }[];
 }
@@ -32,6 +32,7 @@ const posts:PostProps[] = [
       {type:'paragraph', content: 'Boa noite, galera!'},
       {type:'paragraph', content: 'Segue mais um projeto no portifólio. É um site para dar palpites para a copa 22, se cadastrem e chamem os amigos! Segue o link'},
       {type:'link', content: 'https://natrave-copa22.vercel.app/'},
+      {type:'video', content: 'pWMGGWCNzGA'},
 
     ],
     publishedAt: parseISO('2022-11-01 19:00:00')

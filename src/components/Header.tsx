@@ -6,8 +6,20 @@ export function Header(){
 
     return(
         <header className={styles.header}>
-            <img src={igniteLogo}/>
-            <strong>Feed Model</strong>
+            
+            <h4>Pantoja Contabilidade</h4>
+            
+            <div className='col'>
+                <img src={igniteLogo}/>
+                <strong>e-Contabil</strong>
+            </div>
+            
+            <button
+                onClick={(() => {})}
+            >
+                Sair
+            </button>
+            
         </header>
     )
 }

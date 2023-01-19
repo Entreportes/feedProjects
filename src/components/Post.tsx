@@ -17,9 +17,9 @@ interface Author{
 
 interface PostProps {
     author: Author;
-    publishedAt: Date;
+    publishedAt: Date; 
     content: {
-        type: 'paragraph'|'link';
+        type: 'paragraph'|'link'|'video';
         content: string;
     }[]
 }
@@ -58,6 +58,8 @@ export function Post({author, publishedAt, content}:PostProps){
             comment:newCommentText,
             publishedAt: new Date()
         }
+        console.log(newCommentText)
+        newCommentText.replaceAll('\n',"{'\n'}")
         setComments([...comments,newComment])
         setNewCommentText('')
         console.log('passou')
@@ -100,12 +102,19 @@ export function Post({author, publishedAt, content}:PostProps){
                     return <p key={line.content}>{line.content}</p>
                 }else if (line.type === 'link'){
                     return <p key={line.content}><a href={line.content}>{line.content}</a></p>
+                }else if (line.type === 'video'){
+                    return(
+                        <YouTube
+                            key={line.content}
+                            videoId = {line.content}
+                        />
+                    )
                 }
                })}
                <div>
-                <YouTube
+                {/* <YouTube
                     videoId='pWMGGWCNzGA'
-                />
+                /> */}
                </div>
             </div>
             <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
@@ -113,6 +122,7 @@ export function Post({author, publishedAt, content}:PostProps){
                 <textarea
                     name="comment"
                     placeholder='Escreva um comentário...'
+                    aria-multiline
                     onChange={handleNewCommentChange}
                     value={newCommentText}
                     required={true}

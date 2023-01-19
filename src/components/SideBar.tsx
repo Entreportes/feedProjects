@@ -1,6 +1,6 @@
 import styles from './SideBar.module.css'
 
-import {PencilLine} from 'phosphor-react'
+import {PencilLine, Calculator, Student, Bank, File, Link} from 'phosphor-react'
 import { Avatar } from './Avatar'
 
 export function SideBar(){
@@ -17,12 +17,35 @@ export function SideBar(){
                 <strong>Lucas Entreportes</strong>
                 <span>Web Developer</span>
             </div>
-            <footer>
+            {/* <footer>
                 <a href='#'>
                     <PencilLine size={20}/>
-                    Edtar seu perfil
+                    Editar seu perfil
                 </a>
-            </footer>
+            </footer> */}
+            <nav>
+                <a href='#'>
+                    <Bank/>
+                    DashBoard
+                </a>
+                <a href='#'>
+                    <Student/>
+                    Feed de ensino
+                </a>
+                <a href='#'>
+                    <Calculator/>
+                    Calculadoras
+                </a>
+                <a href='#'>
+                    <File/>
+                    Documentos Contábeis
+                </a>
+                <a href='#'>
+                    <Link/>
+                    Links úteis
+                </a>
+            </nav>
+
         </aside>
     )
 }
