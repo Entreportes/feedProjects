@@ -11,8 +11,16 @@
     height: 3rem;
     margin-right: 1rem;
 }
-.header button {
-    background: transparent;
-    color: var(--gray-100)
+.header a {
+    font-weight: bold;
+    color: var(--green-500);
+    text-decoration: none;
+    width: 5rem;
+    font-size: 1rem;
+    display: flex;
+    justify-content: flex-end;
 
+}
+.content a:hover {
+    color: var(--green-300);
 }

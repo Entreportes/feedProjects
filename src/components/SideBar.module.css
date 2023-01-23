@@ -12,7 +12,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
+    border-bottom: solid var(--gray-600);
     margin-top: calc(0px - 1.6rem - 6px) /* faz a imagem comecar em cima do anterior, comeca no 0 e volta (1.6rem + 6px)  */
 }
 
@@ -61,10 +61,10 @@
     color: var(--white);
 }
 
-.sidebar nav a{ 
+.sidebar nav a{  
     background: transparent;
     color: var(--gray-100);
-    border: 1px solid var(--green-500);
+    border: 0px 1px solid var(--green-500);
     /* border-radius: 8px; */
     height: 35px;
     padding: 0 1.5rem;

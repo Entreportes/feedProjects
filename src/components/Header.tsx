@@ -14,11 +14,12 @@ export function Header(){
                 <strong>e-Contabil</strong>
             </div>
             
-            <button
-                onClick={(() => {})}
+            <a
+                // onClick={(() => {})}
+                href='#sair'
             >
                 Sair
-            </button>
+            </a>
             
         </header>
     )

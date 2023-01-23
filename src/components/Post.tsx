@@ -19,7 +19,7 @@ interface PostProps {
     author: Author;
     publishedAt: Date; 
     content: {
-        type: 'paragraph'|'link'|'video';
+        type: 'paragraph'|'link'|'video'|'title'|'tags';
         content: string;
     }[]
 }
@@ -98,7 +98,14 @@ export function Post({author, publishedAt, content}:PostProps){
             
             <div className={styles.content}>
                {content.map(line => {
-                if(line.type === 'paragraph'){
+                if(line.type === 'title'){
+                    return <h3 key={line.content}>{line.content}</h3>
+                }if(line.type === 'tags'){
+                    const tags = line.content.split(" ")
+                    return(
+                        tags.map( tag => (<a href={`/ensino/#${tag}?`} target="">#{tag} </a>))
+                    )
+                }else if(line.type === 'paragraph'){
                     return <p key={line.content}>{line.content}</p>
                 }else if (line.type === 'link'){
                     return <p key={line.content}><a href={line.content}>{line.content}</a></p>
@@ -118,7 +125,7 @@ export function Post({author, publishedAt, content}:PostProps){
                </div>
             </div>
             <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
-                <strong>Deixe seu feedback</strong>
+                <strong>Deixe seu feedback e dúvidas</strong>
                 <textarea
                     name="comment"
                     placeholder='Escreva um comentário...'

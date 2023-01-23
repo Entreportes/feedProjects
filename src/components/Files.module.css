@@ -1,0 +1,36 @@
+.file{
+    background: var(--gray-800);
+    border-radius: 8px;
+    padding: 2.5rem;
+
+}
+
+.file + .file {
+    margin-top: 2rem;
+}
+
+.content {
+    line-height: 1.6;
+    color: var(--gray-300);
+    margin-top: 1.5rem;
+}
+
+.file button { 
+    background: transparent;
+    color: var(--gray-100);
+    border: 2px solid var(--green-500);
+    border-radius: 8px;
+    height: 35px;
+    padding: 0 1.5rem;
+    margin-top: 1rem;
+
+    display:flex;
+    align-items: center;
+
+    transition: color 0.5s, background-color 0.5s;
+}
+
+.file button:hover {
+    background: var(--green-500);
+    color: var(--white);
+}

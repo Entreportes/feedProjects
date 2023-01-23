@@ -4,6 +4,9 @@ import { SideBar } from './components/SideBar.jsx'
 import './global.css'
 import styles from './App.module.css'
 import { parseISO } from 'date-fns'
+import { Files } from './components/Files.js'
+import { useEffect, useState } from 'react'
+import { Links } from './components/Links.js'
 
 
 interface Author{
@@ -16,7 +19,7 @@ interface PostProps{
   author: Author;
   publishedAt: Date;
   content: {
-    type: 'paragraph'|'link'|'video';
+    type: 'paragraph'|'link'|'video'|'title'|'tags';
     content: string;
   }[];
 }
@@ -29,8 +32,9 @@ const posts:PostProps[] = [
       role: 'Engineer'
     },
     content: [
-      {type:'paragraph', content: 'Boa noite, galera!'},
-      {type:'paragraph', content: 'Segue mais um projeto no portifólio. É um site para dar palpites para a copa 22, se cadastrem e chamem os amigos! Segue o link'},
+      {type:'title', content: 'Copa22'},
+      {type:'tags', content: 'Copa22 app android outraTag'},
+      {type:'paragraph', content: 'Boa noite, galera!\n Segue mais um projeto no portifólio. \n É um site para dar palpites para a copa 22, se cadastrem e chamem os amigos! Segue o link'},
       {type:'link', content: 'https://natrave-copa22.vercel.app/'},
       {type:'video', content: 'pWMGGWCNzGA'},
 
@@ -70,28 +74,63 @@ const posts:PostProps[] = [
 ] 
 
 
-
-
 function App() {  
 
+  const [navigationApp, setNavigationApp] =useState('dashboard')
+
+  useEffect(() =>{
+
+  },[navigationApp])
   return (
-    <div>
+    <div className='bg'>
 
       <Header/>
 
       <div className={styles.wrapper}>
-        <SideBar/>
+        <SideBar
+          navigationChange={setNavigationApp}
+        />
         <main>
-          {posts.map(post =>{
-            return(              
-              <Post
-                key={post.id}
-                author={post.author}
-                content={post.content}
-                publishedAt={post.publishedAt}
-              />
-            )
-          })}
+          {
+            navigationApp === 'dashboard' ?
+            <p>Dashboard</p>
+            :
+            navigationApp === 'feed' ?
+            posts.map(post =>{
+              return(              
+                <Post
+                  key={post.id}
+                  author={post.author}
+                  content={post.content}
+                  publishedAt={post.publishedAt}
+                />
+              )
+            })
+            :
+            navigationApp === 'calculator' ?
+              <p>calculator</p>
+              :
+              navigationApp === 'files' ?
+                <>
+                  <Files
+                    directory='\server\caminho1'
+                    title={navigationApp} 
+                  />
+                  <Files
+                      directory='\server\caminho2'
+                      title='Relatórios' 
+                  />
+                </>
+                :
+                navigationApp === 'links' ? 
+                  <Links/>
+                  :
+                  <p>Desculpe, Houston, tivemos um problema, entre em contato com o administrador.</p>
+              }
+            
+          
+          
+          
         </main>
       </div>
     </div>
