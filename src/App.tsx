@@ -86,7 +86,7 @@ function App() {
 
       <Header/>
 
-      <div className={styles.wrapper}>
+      <div className={styles.container}>
         <SideBar
           navigationChange={setNavigationApp}
         />

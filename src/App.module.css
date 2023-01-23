@@ -1,4 +1,4 @@
-.wrapper{
+.container{
     max-width: 70rem;
     margin: 2rem auto;
     padding: 0 1rem;
@@ -12,7 +12,7 @@
     html{
         font-size: 87.5%;
     }
-    .wrapper{
+    .container{
         grid-template-columns: 1fr;
     }
 }
