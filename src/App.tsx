@@ -82,7 +82,7 @@ function App() {
 
   },[navigationApp])
   return (
-    <div className='bg'>
+    <div>
 
       <Header/>
 
