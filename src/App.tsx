@@ -82,11 +82,11 @@ function App() {
 
   },[navigationApp])
   return (
-    <div className='bg'>
+    <div>
 
       <Header/>
 
-      <div className={ styles.container } >
+      <div className={ styles.wrapper } >
         <SideBar
           navigationChange={setNavigationApp}
         />
