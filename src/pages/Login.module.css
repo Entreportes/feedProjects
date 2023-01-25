@@ -1,0 +1,42 @@
+
+body{
+    margin: 0;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding:0;
+    height: 100vh;
+    background: url("../bg-city.png");
+    background-position: center ;     
+    background-repeat:no-repeat; 
+    background-size: cover;
+}
+
+.wrapper {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    color: white;
+    background: #000000aa;
+    
+
+}
+h4{
+    color: var(--gray-300)
+}
+
+.container footer{
+    width:100%;
+    text-align: center;
+    color: white;
+    background: black;
+    
+}

@@ -5,10 +5,12 @@ import { Avatar } from './Avatar'
 
 
 interface SideBarProps{
+    nome: string;
+    empresa: string;
     navigationChange: (input:string) => void
 }
 
-export function SideBar({navigationChange}:SideBarProps){
+export function SideBar({nome,empresa,navigationChange}:SideBarProps){
 
     
 
@@ -28,8 +30,8 @@ export function SideBar({navigationChange}:SideBarProps){
                 <Avatar
                     src='https://github.com/entreportes.png'
                 />
-                <strong>Lucas Entreportes</strong>
-                <span>Web Developer</span>
+                <strong>{nome}</strong>
+                <span>{empresa}</span>
             </div>
             {/* <footer>
                 <a href='#'>
