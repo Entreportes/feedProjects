@@ -29,7 +29,7 @@ export function LoginComponent(){
         const email_aux = email.split("@")
         const nome = email_aux[0].replace("_"," ")
         const empresa = email_aux[1].split(".")[0].replace("_"," ")
-        location.href = `http://127.0.0.1:5173/home/${nome}/${empresa}`
+        location.href = `https://feed-projects-git-master-entreportes.vercel.app/home/${nome}/${empresa}`
         
     }
     return(
