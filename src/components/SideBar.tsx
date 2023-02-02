@@ -1,7 +1,8 @@
 import styles from './SideBar.module.css'
-
+import '../global.css'
 import {PencilLine, Calculator, Student, Bank, File, Link} from 'phosphor-react'
 import { Avatar } from './Avatar'
+import { useState } from 'react';
 
 
 interface SideBarProps{
@@ -12,14 +13,15 @@ interface SideBarProps{
 
 export function SideBar({nome,empresa,navigationChange}:SideBarProps){
 
-    
+    const [isSelected,setIsSelected] = useState('dashboard');
 
     function navigation(params:string){
+        setIsSelected(params)
         navigationChange(params)
 
     }
 
-
+    console.log(isSelected)
     return(
         <aside className={styles.sidebar}>
             <img  
@@ -40,25 +42,47 @@ export function SideBar({nome,empresa,navigationChange}:SideBarProps){
                 </a>
             </footer> */}
             <nav>
-                <a href='#' onClick={() => navigation('dashboard')}>
+                <a href='#' 
+                    onClick={() => navigation('dashboard')}
+                    className= {isSelected === 'dashboard' ? styles.backgroundSelected : ""}   
+                >
                     <Bank/>
                     DashBoard
                 </a>
-                <a href='#' onClick={() => navigation('feed')}>
+                <a  href='#' 
+                    onClick={() => navigation('feed')}
+                    className= {isSelected === 'feed' ? styles.backgroundSelected : ""}
+                >
                     <Student/>
                     Feed de ensino
                 </a>
-                <a href='#' onClick={() => navigation('calculator')}>
+                <a href='#' 
+                    onClick={() => navigation('calculator')}
+                    className= {isSelected === 'calculator' ? styles.backgroundSelected : ""}
+                >
                     <Calculator/>
                     Calculadoras
                 </a>
-                <a href='#' onClick={() => navigation('files')}>
+                <a href='#' 
+                    onClick={() => navigation('files')}
+                    className= {isSelected === 'files' ? styles.backgroundSelected : ""}
+                >
                     <File/>
                     Documentos Contábeis
                 </a>
-                <a href='#' onClick={() => navigation('links')}>
+                <a href='#' 
+                    onClick={() => navigation('links')}
+                    className= {isSelected === 'links' ? styles.backgroundSelected : ""}
+                >
                     <Link/>
                     Links úteis
+                </a>
+                <a href='http://localhost:5173/admin/Renato Pantoja/Pantoja Contabilidade'
+                    onClick={() => navigation('admin')}
+                    className= {isSelected === 'admin' ? styles.backgroundSelected : ""}
+                >
+                    <Link/>
+                    Admin
                 </a>
             </nav>
 

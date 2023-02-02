@@ -18,19 +18,18 @@
 }
 
 
-:focus{
+/* :focus{
   outline: transparent;
   box-shadow: 0 0 0 2px var(--green-500);
   box-shadow: 0 0 0 2px var(--purple-300);
-}
+} */
 html{
   background: var(--gray-600);
   color: var(--gray-300);
   -webkit-font-smoothing: antialiased;
 
 }
-body{
-}
+
 body, input, textarea{
   font-family: 'Roboto', sans-serif;
   font-weight: 400;

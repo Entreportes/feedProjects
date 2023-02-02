@@ -35,7 +35,7 @@ span {
 
 }
 
-h3 {
+.container h3 {
     text-align: center;
 }
 
@@ -44,9 +44,9 @@ h3 {
     text-decoration: none;
 } */
 
-button {   
-    background-color: var(--purple-500);   
-    width: 100%;  
+.container button{   
+    background: var(--purple-500);   
+    /* width: 100%;   */
     color: var(--gray-100);
       
     padding: 15px;   
@@ -57,7 +57,7 @@ button {
     font-size: 1rem;
     transition: background-color 500ms;
 } 
-button:hover {
+.container button:hover {
     font-weight: bold;
     background: var(--purple-300);   
 }

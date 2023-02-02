@@ -17,6 +17,8 @@ export function BoxFiles({directory,permission = false}: BoxFilesProps){
                 :
                 <p>Sem permissão</p>
             }
+            <p>API criptografia opcao</p>
+            <p>API assinatura digital opcao</p>
         </div>
 
     )

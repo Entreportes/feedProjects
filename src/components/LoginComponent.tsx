@@ -29,8 +29,9 @@ export function LoginComponent(){
         const email_aux = email.split("@")
         const nome = email_aux[0].replace("_"," ")
         const empresa = email_aux[1].split(".")[0].replace("_"," ")
-        location.href = `https://feed-projects-git-master-entreportes.vercel.app/home/${nome}/${empresa}`
+        // location.href = `https://feed-projects-git-master-entreportes.vercel.app/home/${nome}/${empresa}`
         
+        location.href = `http://localhost:5173/home/${nome}/${empresa}` 
     }
     return(
         <div className={styles.container}>

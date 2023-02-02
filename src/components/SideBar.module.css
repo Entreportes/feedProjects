@@ -36,7 +36,7 @@
 }
 
 
-.sidebar footer a{
+/* .sidebar footer a{
     background: transparent;
     color: var(--green-500);
     border: 1px solid var(--green-500);
@@ -54,7 +54,7 @@
     gap: 0.5rem;
 
     transition: color 0.5s, background-color 0.5s;
-}
+} */
 
 .sidebar footer a:hover{
     background: var(--green-500);
@@ -62,10 +62,7 @@
 }
 
 .sidebar nav a{  
-    background: transparent;
     color: var(--gray-100);
-    border: 0px 1px solid var(--green-500);
-    /* border-radius: 8px; */
     height: 35px;
     padding: 0 1.5rem;
     text-decoration: none;
@@ -83,4 +80,10 @@
     background: var(--green-500);
     /* font-weight: bold; */
     color: var(--white);
+}
+
+.backgroundSelected {
+    border-bottom: 1px solid var(--green-500);
+    border-top: 1px solid var(--green-500);
+    /* background: var(--green-500); */
 }
