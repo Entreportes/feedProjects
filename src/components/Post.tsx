@@ -15,14 +15,29 @@ interface Author{
     avatarUrl: string;
 }
 
+// export interface PostProps{
+//     id: string;
+//     author: Author;
+//     publishedAt: Date;
+//     content: {
+//       type: 'paragraph'|'link'|'video'|'title'|'tags';
+//       content: string;
+//     }[];
+//     commentOFF?: boolean
+// }
 export interface PostProps{
     id: string;
     author: Author;
     publishedAt: Date;
     content: {
-      type: 'paragraph'|'link'|'video'|'title'|'tags';
-      content: string;
-    }[];
+        title?: string;
+        tags?: string[];
+        paragragh?: string;
+        link?: string;
+        link2?: string;
+        image?: string;
+        video?: string;
+    }
     commentOFF?: boolean
 }
 interface CommentProps{
@@ -32,11 +47,17 @@ interface CommentProps{
 }
 
 
-export function Post({author, publishedAt, content, commentOFF=false}:PostProps){
+export function Post({id, author, publishedAt, content, commentOFF=false}:PostProps){
 
     const [comments,setComments] = useState<CommentProps[]>([])
 
     const [newCommentText,setNewCommentText] = useState('');
+
+    const opts = {
+        width: '100%',
+        height: '350px'
+        
+    }
 
     function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>){
         event.target.setCustomValidity('')
@@ -98,15 +119,32 @@ export function Post({author, publishedAt, content, commentOFF=false}:PostProps)
             </header>
             
             <div className={styles.content}>
-               {content.map(line => {
+                { content.title ? <h3>{content.title}</h3> : null}
+                { content.tags ? content.tags.map( tag => (<a href={`/ensino/#${tag}?`} target="_blank">#{tag} </a>)) : null }
+                     
+                { content.paragragh ? <h3>{content.paragragh}</h3> : null}
+                { content.link ? <p key={content.link}><a href={content.link}>{content.link}</a></p> : null}
+                { content.link2 ? <p key={content.link2}><a href={content.link}>{content.link}</a></p> : null}
+                { content.video ? 
+                    
+                    <YouTube
+                        videoId = {content.video}
+                        opts= {opts} 
+                    />
+                : null }
+                
+               {/* {content.map(line => {
                 if(line.type === 'title'){
                     return <h3 key={line.content}>{line.content}</h3>
                 }if(line.type === 'tags'){
                     const tags = line.content.split(" ")
                     console.log(tags)
-                    return(
-                        tags.map( tag => (<a href={`/ensino/#${tag}?`} target="_blank">#{tag} </a>))
-                    )
+                    if( tags[0] != '')
+                        return(
+                            tags.map( tag => (<a href={`/ensino/#${tag}?`} target="_blank">#{tag} </a>))
+                        )
+                    
+                    
                 }else if(line.type === 'paragraph'){
                     return <p key={line.content}>{line.content}</p>
                 }else if (line.type === 'link'){
@@ -126,16 +164,13 @@ export function Post({author, publishedAt, content, commentOFF=false}:PostProps)
                         />
                     )
                 }
-               })}
-               <div>
-                {/* <YouTube
-                    videoId='pWMGGWCNzGA'
-                /> */}
+               })} */}
+               <div>                
                </div>
             </div>
             {commentOFF ?
             
-            null
+            <h6>Id: {id}</h6>
             :
             <div>
                 <form onSubmit={handleCreateNewComment} className={styles.commentForm}>

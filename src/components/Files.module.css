@@ -16,9 +16,9 @@
 }
 
 .file button { 
-    background: transparent;
+    background: var(--green-500);
     color: var(--gray-100);
-    border: 2px solid var(--green-500);
+    border: 0px solid var(--green-500);
     border-radius: 8px;
     height: 35px;
     padding: 0 1.5rem;
@@ -31,6 +31,6 @@
 }
 
 .file button:hover {
-    background: var(--green-500);
+    background: var(--green-300);
     color: var(--white);
 }

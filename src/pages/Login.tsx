@@ -3,14 +3,19 @@ import { LoginComponent } from '../components/LoginComponent'
 import '../global.css'
 import styles from './Login.module.css'
 
+const logo = 'https://www.pantojacontabilidade.com.br/images/logo1.PNG'
+const name = 'Pantoja Contabilidade'
+const site = 'https://www.pantojacontabilidade.com.br'
 
 export function Login(){
-
+    
     return(
         <div className={styles.container}>
             <div className={styles.wrapper}>
-                {/* <h1>Pantoja Contabilidade</h1> */}
-                <img src='../logo.png'/>
+                <a href={site} target='_blank'>
+                    <img src={logo}/>
+                    <h1>{name}</h1>
+                </a>
                 <LoginComponent/>
                 <div>
                     <h4>Porque hoje só existe o hoje,</h4>

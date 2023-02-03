@@ -1,14 +1,11 @@
 import { Header } from '../components/Header.jsx'
-import {Post, PostProps} from '../components/Post.jsx'
 import { SideBar } from '../components/SideBar.jsx'
 import '../global.css'
 import styles from './Home.module.css'
-import { parseISO } from 'date-fns'
-import { Files } from '../components/Files.js'
 import { useEffect, useState } from 'react'
-import { Links } from '../components/Links.js'
 import {useParams} from 'react-router-dom'
 import {HandlePost} from '../components/HandlePost'
+import { DeletePost } from '../components/DeletePost.js'
 
 
 interface Author{
@@ -49,9 +46,11 @@ export function Admin() {
             empresa={empresa ? empresa.toUpperCase() : "E7 Soluções Integradas"}
             navigationChange={setNavigationApp}
         />
-        <main>
-          <HandlePost/>          
-        </main>
+        <div>
+          <HandlePost/>
+          
+          <DeletePost/>
+        </div>
       </div>
     </div>
 

@@ -34,52 +34,75 @@ export function Home() {
 
   const [posts,setPosts] = useState<PostProps[]>([
     {
-      id:'1',
-      author:{
-        avatarUrl: 'https://github.com/entreportes.png',
-        name: 'Lucas Entreports',
-        role: 'Engineer'
-      },
-      content: [
-        {type:'title', content: 'Como funciona a contabilidade de uma empresa'},
-        {type:'tags', content: 'contabilidade BI '},
-        {type:'paragraph', content: 'Empreendedores nem sempre dão a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!'},
-        {type:'link', content: 'http://cerbasi.site/grade-opd-yt'},
-        {type:'video', content: 'iYma9_gpEUQ'},
-  
-      ],
-      publishedAt: parseISO('2022-11-01 19:00:00')
+    id:'1',
+    author:{
+      avatarUrl: 'https://github.com/renatomh.png',
+      name: 'Renato Henz',
+      role: 'CEO MHSW'
+    },
+    content:{ 
+      title: 'Como funciona a contabilidade de uma empresa',
+      tags: ['contabilidade', 'BI'],
+      paragragh: 'Empreendedores nem sempre dão\n a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
+      link: 'http://cerbasi.site/grade-opd-yt',
+      video:'iYma9_gpEUQ',
+
+    }            
+    ,
+    publishedAt: parseISO('2022-11-01 19:00:00')
     },
     {
       id:'2',
       author:{
-        avatarUrl: 'https://github.com/renatomh.png',
-        name: 'Renato Henz',
-        role: 'CEO MHSW'
+        avatarUrl: 'https://github.com/entreportes.png',
+        name: 'Lucas Entreportes',
+        role: 'Engineer'
       },
-      content: [
-        {type:'paragraph', content: 'Hey, guys!'},
-        {type:'paragraph', content: 'This project was developed during the RocketSeat Next Level Week - eSports event. It aims to provide an interface for finding other players to play online games with.'},
-        {type:'link', content: 'https://github.com/renatomh/nlw-esports-web'},
-  
-      ],
-      publishedAt: parseISO('2022-11-03 11:00:00')
+      content:{ 
+        title: 'Como funciona a contabilidade de uma empresa',
+        tags: ['contabilidade', 'BI'],
+        paragragh: 'Empreendedores nem sempre dão a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
+        link: 'http://cerbasi.site/grade-opd-yt',
+        video:'iYma9_gpEUQ',
+
+      }            
+      ,
+      publishedAt: parseISO('2022-11-01 19:00:00')
     },
     {
       id:'3',
+      author:{
+        avatarUrl: 'http://t3.gstatic.com/licensed-image?q=tbn:ANd9GcR0KZom0y5vl3t_V4xzrrFenuKIMvsfCGeOXeH8BhAK74ndYNIhluarqybGUoZXzSFa',
+        name: 'Carolina',
+        role: 'Deusa'
+      },
+      content:{ 
+        title: 'Como funciona a contabilidade de uma empresa',
+        tags: ['contabilidade', 'BI'],
+        paragragh: 'Empreendedores nem sempre dão a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
+        link: 'http://cerbasi.site/grade-opd-yt',
+        video:'iYma9_gpEUQ',
+
+      }            
+      ,
+      publishedAt: parseISO('2022-11-01 19:00:00')
+      },
+      {
+      id:'4',
       author:{
         avatarUrl: 'https://github.com/diego3g.png',
         name: 'Diego Fernandes',
         role: 'CTO @ Rocketseat'
       },
-      content: [
-        {type:'paragraph', content: 'Fala, galera!'},
-        {type:'paragraph', content: 'Acabei de subir mais um projeto. É um projeto que fiz no NLW Return.'},
-        {type:'link', content: 'jane.design/doctorcare'},
-  
-      ],
-      publishedAt: parseISO('2022-05-03 20:00:00')
-    }]
+      content:{ 
+        title: 'Como funciona a contabilidade de uma empresa',
+        tags: ['NLW', 'Rocket'],
+        paragragh: 'Fala galera, \n Mais uma edição do NLW!',
+        link: 'jane.design/doctorcare',  
+      }            
+      ,
+      publishedAt: parseISO('2022-11-01 19:00:00')
+      }]
   ) 
   const {nome,empresa} = useParams()
 
