@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react'
 import { Links } from '../components/Links.js'
 
 import {useParams} from 'react-router-dom'
+import { Article, ArticleProps } from '../components/Article.js'
+import { HandleArticle } from '../components/HandleArticle.js'
 
 
 interface Author{
@@ -31,6 +33,8 @@ interface Author{
 export function Home() {  
 
   const [navigationApp, setNavigationApp] =useState('dashboard')
+
+  const [articles,setArticles] = useState<ArticleProps[]>([])
 
   const [posts,setPosts] = useState<PostProps[]>([
     {
@@ -156,7 +160,21 @@ export function Home() {
                 navigationApp === 'links' ? 
                   <Links/>
                   :
-                  <p>Desculpe, Houston, tivemos um problema, entre em contato com o administrador.</p>
+                  navigationApp === 'article' ? 
+                    <HandleArticle/>
+                    // articles.map(article =>{
+                    //   return(              
+                    //     <Article
+                    //       key={article.id}
+                    //       id = {article.id}
+                    //       author={article.author}
+                    //       content={article.content}
+                    //       publishedAt={article.publishedAt}
+                    //     />
+                    //   )
+                    // })
+                    :
+                    <p>Desculpe, Houston, tivemos um problema, entre em contato com o administrador.</p>
               }
             
           

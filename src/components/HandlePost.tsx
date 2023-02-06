@@ -41,7 +41,8 @@ export function HandlePost(){
         console.log(tags)
         console.log(description)
         console.log(link)
-        var aux =''
+        console.log(video)
+        var aux = ''
         video ? aux = video.split('=')[1] : aux = ''
 
         console.log(aux)
@@ -49,14 +50,22 @@ export function HandlePost(){
             id : cuid(),
             author : user,
             publishedAt : new Date,
-            content: [
-                {type:'title', content: title},
-                {type:'tags', content: tags},
-                {type:'paragraph', content: description},
-                {type:'link', content: link},
-                {type:'link', content: link2},
-                aux ? {type:'video', content: aux}  : {type:'link', content: ''}        
-            ]
+            content: {
+                title: title,
+                tags: tags.split(' '),
+                paragragh: description,
+                link: link,
+                link2: link2,                
+                video: video,
+            }
+            // content: [
+            //     {type:'title', content: title},
+            //     {type:'tags', content: tags},
+            //     {type:'paragraph', content: description},
+            //     {type:'link', content: link},
+            //     {type:'link', content: link2},
+            //     aux ? {type:'video', content: aux}  : {type:'link', content: ''}        
+            // ]
         }
         setPost(post)
         

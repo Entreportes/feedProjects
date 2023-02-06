@@ -56,6 +56,13 @@ export function SideBar({nome,empresa,navigationChange}:SideBarProps){
                     <Student/>
                     Feed de ensino
                 </a>
+                <a  href='#' 
+                    onClick={() => navigation('article')}
+                    className= {isSelected === 'article' ? styles.backgroundSelected : ""}
+                >
+                    <Student/>
+                    Artigos
+                </a>
                 <a href='#' 
                     onClick={() => navigation('calculator')}
                     className= {isSelected === 'calculator' ? styles.backgroundSelected : ""}
