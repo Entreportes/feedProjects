@@ -1,11 +1,18 @@
 
 import { parseISO } from 'date-fns'
 import { useState } from 'react';
-import styles from './DeletePost.module.css'
+import styles from './SearchPost.module.css'
 import { Post, PostProps } from "./Post";
+import {MagnifyingGlass, User } from 'phosphor-react'
+import { useAuth } from '../hooks/useAuth';
+import { UserDTO } from '../dtos/UserDTO';
 
-
-export function DeletePost(){
+// interface DeleteProps{
+//   idToSearch?:string;
+//   titleToSearch?:string;
+//   tagToSearch?:string;
+// }
+export function SearchPost(){
     const [posts,setPosts] = useState<PostProps[]>([
       {
       id:'1',
@@ -83,10 +90,13 @@ export function DeletePost(){
     const [title,setTitle] = useState('');
     const [tag,setTag] = useState('');
     const [id,setId] = useState('');
+    const [cardOption,setCardOption] = useState(false);
 
+    const {user} = useAuth()
 
   function SearchPostByTitle(){
     setPost([])
+    setCardOption(false)
     console.log('procurar por titulo')
     const found = posts.filter((post)=>post.content.title === title)
     { found != undefined ? setPost(found) : console.log('nao achou') }
@@ -95,6 +105,7 @@ export function DeletePost(){
   }
   function SearchPostByTags(){
     setPost([])
+    setCardOption(false)
     console.log('procurar por Tags')
     // const found = posts.filter((post)=>post.content.tags ? post.content.tags[0] === tag : undefined)
     const found = posts.filter((post) => post.content.tags?.find((tag_aux) => tag_aux === tag ))
@@ -103,48 +114,67 @@ export function DeletePost(){
     console.log(post)        
 
   }
-  function SearchPostById(){
+  function SearchPostById(id: string){
     setPost([])
+    setCardOption(false)
     console.log('procurar por id')
     const found = posts.find((post)=>post.id === id)
     { found != undefined ? setPost([found]) : console.log('nao achou') }
     console.log(post)        
 
   }
+  function SearchAll(){
+    setPost(posts)
+    setCardOption(true)
+  }
 
     return(
         <div className={styles.container}>
-          <h3>Deletar Post</h3>
-          <form><label> Título </label>            
+          <div className={styles.buttonAll}>
+            <h3>Procurar Post</h3>
+            {user.admin ? 
+              <button
+                type='reset'
+                onClick={() => SearchAll()}                
+              >
+                <MagnifyingGlass size={20}/> Todos
+              </button>
+            : null
+            }
+          </div>
+          <form><h4> Título: </h4>            
             <input
                 type='text'
                 placeholder='Título'
                 required
                 onChange={(event) => setTitle(event.target.value)}
-                value={title}                
+                value={title}
+                               
             />
             <button
                 type='reset'
-                onClick={SearchPostByTitle}                
+                onClick={SearchPostByTitle}
+                disabled={title.length > 0 ? false: true}                 
             >
-                Buscar por título
+                <MagnifyingGlass size={20}/>
             </button>
           </form>
-          <form><label> Tags </label>
+          <form><h4> Tag: </h4>
             <input
                 type='text'
-                placeholder='Tags'  
+                placeholder='Tag'  
                 onChange={(event) => setTag(event.target.value)}
                 value={tag}                
             />
             <button
               type='reset'
-              onClick={SearchPostByTags}                
+              onClick={SearchPostByTags}
+              disabled={tag.length > 0 ? false: true}             
             >
-              Bucar por tag
+              <MagnifyingGlass size={20}/>
             </button>
           </form>
-          <form><label> Id </label>
+          <form><h4> Id: </h4>
             <input
               type='text'
               placeholder='Id'  
@@ -153,11 +183,13 @@ export function DeletePost(){
             />
             <button
                 type='reset'
-                onClick={SearchPostById}                
+                onClick={() => SearchPostById(id)} 
+                disabled={id.length > 0 ? false: true}                
             >
-                Buscar por Id
+                <MagnifyingGlass size={20}/>
             </button>
           </form>
+          
           {post ? 
               post.map(post => {
                 return (
@@ -167,6 +199,8 @@ export function DeletePost(){
                     content={post.content}
                     publishedAt={post.publishedAt}
                     commentOFF
+                    admin={user.admin}
+                    card={cardOption}
                   />
                 )
               })

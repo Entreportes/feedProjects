@@ -1,19 +1,14 @@
 import { Avatar } from './Avatar'
 import { Comment } from './Comment'
 import styles from './Article.module.css'
-import YouTube from 'react-youtube';
 
 import { format, formatDistanceToNow, parseISO, getDate, toDate, parse } from "date-fns";
 import ptBR from 'date-fns/locale/pt-BR'
-import { ChangeEvent, FormEvent, InvalidEvent, useState} from 'react';
+import { ChangeEvent, InvalidEvent, useState} from 'react';
+import { UserDTO } from '../dtos/UserDTO';
 
 
 
-interface Author{
-    name: string;
-    role: string;
-    avatarUrl: string;
-}
 interface DevelopmentProps{
     subtitle: string;
     content: string;
@@ -21,13 +16,13 @@ interface DevelopmentProps{
 
 export interface ArticleProps{
     id: string;
-    author: Author;
+    author: UserDTO;
     publishedAt: Date;
     content: {
         title?: string;
         tags?: string[];
         abstract: string;
-        introdction: string;
+        introduction: string;
         development: DevelopmentProps[]
         conclusion: string;
         references?: string;
@@ -98,7 +93,7 @@ export function Article({id, author, publishedAt, content, commentOFF=false}:Art
             <header>
                 <div className={styles.author}>
                     <Avatar
-                        src={author.avatarUrl}
+                        src={author.avatar}
                     />
                     <div className={styles.authorInfo}>
                         <strong>{author.name}</strong>
@@ -120,10 +115,10 @@ export function Article({id, author, publishedAt, content, commentOFF=false}:Art
                         <p>{content.abstract}</p> 
                     </div>
                 : null}
-                { content.introdction ? 
+                { content.introduction ? 
                     <div>
                         <h2>Introdução</h2>
-                        <p>{content.introdction}</p> 
+                        <p>{content.introduction}</p> 
                     </div>
                 : null}
                 { content.development ? 
@@ -181,7 +176,7 @@ export function Article({id, author, publishedAt, content, commentOFF=false}:Art
                                 content={comment.comment}
                                 onDeleteComment={deleteComment}
                                 publishedAt={comment.publishedAt}
-                                author={comment.author}
+                                author={author}
                             />
                         )
                     })}

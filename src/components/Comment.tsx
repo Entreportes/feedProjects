@@ -1,16 +1,17 @@
-import { ThumbsUp, Trash } from 'phosphor-react'
+import { ThumbsUp, Trash, User } from 'phosphor-react'
 import { useState } from 'react'
 import { Avatar } from './Avatar'
 import styles from './Comment.module.css'
 
 import { format, formatDistanceToNow } from "date-fns";
 import ptBR from 'date-fns/locale/pt-BR'
+import { UserDTO } from '../dtos/UserDTO';
 
 interface CommentProps{
     content: string;
     onDeleteComment: (comment: string) => void;
     publishedAt: Date;
-    author: string;
+    author: UserDTO;
 }
 
 
@@ -37,14 +38,14 @@ export function Comment({content, onDeleteComment, publishedAt, author}:CommentP
     return(
         <div className={styles.comment}>
             <Avatar
-                src='https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg'
+                src= {author.avatar}
                 hasBorder={false}
             />
             <div className={styles.commentBox}>
                 <div className={styles.commentContent}>
                     <header>
                         <div className={styles.authorAndTime}>
-                            <strong>{author}</strong>
+                            <strong>{author.name}</strong>
                             <time title={publishedAtDateFormatted} dateTime={publishedAt.toISOString()}>
                                 {publishedDateRelativeToNow}
                             </time>

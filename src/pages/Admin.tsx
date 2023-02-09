@@ -3,9 +3,11 @@ import { SideBar } from '../components/SideBar.jsx'
 import '../global.css'
 import styles from './Home.module.css'
 import { useEffect, useState } from 'react'
-import {useParams} from 'react-router-dom'
-import {HandlePost} from '../components/HandlePost'
-import { DeletePost } from '../components/DeletePost.js'
+import { useAuth } from '../hooks/useAuth'
+import { ManageClient } from '../components/admin/ManageClients'
+import { Dashboard } from '../components/Dashboard.js'
+import { Post, PostProps } from '../components/Post.js'
+import { parseISO } from 'date-fns'
 
 
 interface Author{
@@ -27,10 +29,64 @@ interface Author{
 
 export function Admin() {  
 
-  const [navigationApp, setNavigationApp] =useState('dashboard')
+  const [navigationApp, setNavigationApp] =useState<'dashboard'|'article'|'links'|'feed'|'calculator'|'files'|'admin'|string>('dashboard')
 
+  const {user,signOut} = useAuth()
 
-  const {nome,empresa} = useParams()
+  const [posts,setPosts] = useState<PostProps[]>([
+    {
+    id:'1',
+    author:{
+      avatarUrl: 'https://github.com/renatomh.png',
+      name: 'Renato Henz',
+      role: 'CEO MHSW'
+    },
+    content:{ 
+      title: 'Como funciona a contabilidade de uma empresa',
+      tags: ['contabilidade', 'BI'],
+      paragragh: 'Empreendedores nem sempre dão\n a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
+      link: 'http://cerbasi.site/grade-opd-yt',
+      video:'iYma9_gpEUQ',
+
+    }            
+    ,
+    publishedAt: parseISO('2022-11-01 19:00:00')
+    },
+    {
+      id:'2',
+      author:{
+        avatarUrl: 'https://github.com/entreportes.png',
+        name: 'Lucas Entreportes',
+        role: 'Engineer'
+      },
+      content:{ 
+        title: 'Como funciona a contabilidade de uma empresa',
+        tags: ['contabilidade', 'BI'],
+        paragragh: 'Empreendedores nem sempre dão a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
+        link: 'http://cerbasi.site/grade-opd-yt',
+        video:'iYma9_gpEUQ',
+
+      }            
+      ,
+      publishedAt: parseISO('2022-11-01 19:00:00')
+    }
+  ])
+
+  function allPosts(){
+    
+    return (posts.map(post =>{
+      return(              
+        <Post
+          key={post.id}
+          id = {post.id}
+          author={post.author}
+          content={post.content}
+          publishedAt={post.publishedAt}
+          admin={user.admin}
+        />
+      )
+    }))
+  }
 
   useEffect(() =>{
 
@@ -38,18 +94,30 @@ export function Admin() {
   return (
     <div>
 
-      <Header/>
+      <Header
+        name={user.name}
+        signOut={signOut}
+      />
 
       <div className={ styles.wrapper } >
         <SideBar
-            nome={nome ? nome.charAt(0).toUpperCase() + nome.substring(1) : "Lucas Entreportes"}
-            empresa={empresa ? empresa.toUpperCase() : "E7 Soluções Integradas"}
+            user={user}
+            company={user.company.name}
             navigationChange={setNavigationApp}
+            admin={user.admin}
         />
         <div>
-          <HandlePost/>
+          {navigationApp === 'dashboard' ?
+            <Dashboard/>
+            :
+            navigationApp === 'feed' ?            
+              allPosts()
+            :
+            <ManageClient/>
+          }
+
           
-          <DeletePost/>
+          <div>FIM</div>
         </div>
       </div>
     </div>

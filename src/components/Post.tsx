@@ -6,6 +6,8 @@ import YouTube from 'react-youtube';
 import { format, formatDistanceToNow, parseISO, getDate, toDate, parse } from "date-fns";
 import ptBR from 'date-fns/locale/pt-BR'
 import { ChangeEvent, FormEvent, InvalidEvent, useState} from 'react';
+import { useAuth } from '../hooks/useAuth';
+import { Trash } from 'phosphor-react';
 
 
 
@@ -38,7 +40,9 @@ export interface PostProps{
         image?: string;
         video?: string;
     }
-    commentOFF?: boolean
+    commentOFF?: boolean;
+    admin?: boolean;
+    card?: boolean;
 }
 interface CommentProps{
     author: string
@@ -47,18 +51,21 @@ interface CommentProps{
 }
 
 
-export function Post({id, author, publishedAt, content, commentOFF=false}:PostProps){
+export function Post({id, author, publishedAt, content, commentOFF=false, admin=false, card=false}:PostProps){
 
     const [comments,setComments] = useState<CommentProps[]>([])
 
     const [newCommentText,setNewCommentText] = useState('');
+    const {user} = useAuth()
 
     const opts = {
         width: '100%',
-        height: '350px'
+        height: '350px',
+        playerVars: {
+          autoplay: 0,
+        },
         
     }
-
     function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>){
         event.target.setCustomValidity('')
         setNewCommentText(event.target.value)
@@ -99,6 +106,10 @@ export function Post({id, author, publishedAt, content, commentOFF=false}:PostPr
         })
         setComments(commentWithoutDeleteOne)
     }
+    function handleDeletePost(){
+        console.log('deletar Post', content.title)
+        console.log('deletar Post id:', id)
+    }
 
     const isNewCommentEmpty = newCommentText.length === 0;
     return(
@@ -115,14 +126,25 @@ export function Post({id, author, publishedAt, content, commentOFF=false}:PostPr
                 </div>
                 <time title={publishedAtDateFormatted} dateTime={publishedAt.toISOString()}>
                     {publishedDateRelativeToNow}
-                </time>
-            </header>
+                    {admin ? 
+                    <button onClick={handleDeletePost} className={styles.TrashButton} title="Deletar Post">
+                        <Trash 
+                            size={20}
+                        />
+                    </button>
+                    :
+                    null
             
+                }
+                </time>
+                
+            </header>
+            {!card ? 
             <div className={styles.content}>
                 { content.title ? <h3>{content.title}</h3> : null}
                 { content.tags ? content.tags.map( tag => (<a href={`/ensino/#${tag}?`} target="_blank">#{tag} </a>)) : null }
                      
-                { content.paragragh ? <h3>{content.paragragh}</h3> : null}
+                { content.paragragh ? <p>{content.paragragh}</p> : null}
                 { content.link ? <p key={content.link}><a href={content.link}>{content.link}</a></p> : null}
                 { content.link2 ? <p key={content.link2}><a href={content.link}>{content.link}</a></p> : null}
                 { content.video ? 
@@ -132,42 +154,13 @@ export function Post({id, author, publishedAt, content, commentOFF=false}:PostPr
                         opts= {opts} 
                     />
                 : null }
-                
-               {/* {content.map(line => {
-                if(line.type === 'title'){
-                    return <h3 key={line.content}>{line.content}</h3>
-                }if(line.type === 'tags'){
-                    const tags = line.content.split(" ")
-                    console.log(tags)
-                    if( tags[0] != '')
-                        return(
-                            tags.map( tag => (<a href={`/ensino/#${tag}?`} target="_blank">#{tag} </a>))
-                        )
-                    
-                    
-                }else if(line.type === 'paragraph'){
-                    return <p key={line.content}>{line.content}</p>
-                }else if (line.type === 'link'){
-                    return <p key={line.content}><a href={line.content}>{line.content}</a></p>
-                }else if (line.type === 'video'){
-                    const opts = {
-                        width: '100%',
-                        height: '350px'
-                        
-                    }
-                    return(
-                        <YouTube
-                            key={line.content}
-                            videoId = {line.content}
-                            opts= {opts}
-                            
-                        />
-                    )
-                }
-               })} */}
-               <div>                
-               </div>
             </div>
+            :
+            <div className={styles.content}>                
+                { content.title ? <h3>{content.title}</h3> : null}
+                { content.tags ? content.tags.map( tag => (<a href={`/ensino/#${tag}?`} target="_blank">#{tag} </a>)) : null }
+            </div>
+            }
             {commentOFF ?
             
             <h6>Id: {id}</h6>
@@ -196,7 +189,7 @@ export function Post({id, author, publishedAt, content, commentOFF=false}:PostPr
                                 content={comment.comment}
                                 onDeleteComment={deleteComment}
                                 publishedAt={comment.publishedAt}
-                                author={comment.author}
+                                author={user}
                             />
                         )
                     })}

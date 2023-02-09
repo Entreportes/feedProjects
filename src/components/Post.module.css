@@ -125,3 +125,12 @@
 .commentFormList {
     margin-top: 2rem;
 }
+
+.TrashButton {
+    background: transparent;
+    border: 0;
+    color: var(--gray-400);
+    cursor: pointer;
+    line-height: 0;
+    border-radius: 2px;
+}

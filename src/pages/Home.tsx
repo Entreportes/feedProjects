@@ -1,16 +1,20 @@
-import { Header } from '../components/Header.jsx'
-import {Post, PostProps} from '../components/Post.jsx'
-import { SideBar } from '../components/SideBar.jsx'
+import { Header } from '../components/Header'
+import {Post, PostProps} from '../components/Post'
+import { SideBar } from '../components/SideBar'
 import '../global.css'
 import styles from './Home.module.css'
 import { parseISO } from 'date-fns'
-import { Files } from '../components/Files.js'
+import { Files } from '../components/Files'
 import { useEffect, useState } from 'react'
-import { Links } from '../components/Links.js'
+import { Links } from '../components/Links'
 
 import {useParams} from 'react-router-dom'
-import { Article, ArticleProps } from '../components/Article.js'
-import { HandleArticle } from '../components/HandleArticle.js'
+import { Article, ArticleProps } from '../components/Article'
+import { HandleArticle } from '../components/HandleArticle'
+import { useAuth } from '../hooks/useAuth'
+import { UserDTO } from '../dtos/UserDTO'
+import { Dashboard } from '../components/Dashboard'
+import { ManageClient } from '../components/admin/ManageClients'
 
 
 interface Author{
@@ -33,8 +37,8 @@ interface Author{
 export function Home() {  
 
   const [navigationApp, setNavigationApp] =useState('dashboard')
-
   const [articles,setArticles] = useState<ArticleProps[]>([])
+  
 
   const [posts,setPosts] = useState<PostProps[]>([
     {
@@ -108,26 +112,37 @@ export function Home() {
       publishedAt: parseISO('2022-11-01 19:00:00')
       }]
   ) 
-  const {nome,empresa} = useParams()
+  const {user,signOut} = useAuth()
+  console.log('Home ->',user)
 
+  async function loadDashBoard(){
+    //carregar DashBoard
+  }
+    
+  
   useEffect(() =>{
+    loadDashBoard()
 
   },[navigationApp])
   return (
     <div>
 
-      <Header/>
+      <Header
+        name={user.company.name}
+        signOut={signOut}
+      />
 
       <div className={ styles.wrapper } >
         <SideBar
-            nome={nome ? nome.charAt(0).toUpperCase() + nome.substring(1) : "Lucas Entreportes"}
-            empresa={empresa ? empresa.toUpperCase() : "E7 Soluções Integradas"}
+            user={user}
+            company={user.company.name}
             navigationChange={setNavigationApp}
+            admin={user.admin}
         />
         <main>
           {
             navigationApp === 'dashboard' ?
-            <p>Dashboard</p>
+            <Dashboard/>
             :
             navigationApp === 'feed' ?
             posts.map(post =>{
@@ -174,6 +189,20 @@ export function Home() {
                     //   )
                     // })
                     :
+                    navigationApp === 'manageClient' ? 
+                      <ManageClient/>
+                      // articles.map(article =>{
+                      //   return(              
+                      //     <Article
+                      //       key={article.id}
+                      //       id = {article.id}
+                      //       author={article.author}
+                      //       content={article.content}
+                      //       publishedAt={article.publishedAt}
+                      //     />
+                      //   )
+                      // })
+                      :
                     <p>Desculpe, Houston, tivemos um problema, entre em contato com o administrador.</p>
               }
             

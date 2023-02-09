@@ -3,15 +3,19 @@ import '../global.css'
 import {PencilLine, Calculator, Student, Bank, File, Link} from 'phosphor-react'
 import { Avatar } from './Avatar'
 import { useState } from 'react';
+import { useAuth } from '../hooks/useAuth';
+import { CompanyDTO } from '../dtos/CompanyDTO';
+import { UserDTO } from '../dtos/UserDTO';
 
 
 interface SideBarProps{
-    nome: string;
-    empresa: string;
-    navigationChange: (input:string) => void
+    user: UserDTO;
+    company: string;
+    navigationChange: (input:string) => void;
+    admin: boolean;
 }
 
-export function SideBar({nome,empresa,navigationChange}:SideBarProps){
+export function SideBar({user,company,navigationChange,admin}:SideBarProps){
 
     const [isSelected,setIsSelected] = useState('dashboard');
 
@@ -20,6 +24,7 @@ export function SideBar({nome,empresa,navigationChange}:SideBarProps){
         navigationChange(params)
 
     }
+
 
     console.log(isSelected)
     return(
@@ -30,10 +35,10 @@ export function SideBar({nome,empresa,navigationChange}:SideBarProps){
             />
             <div className={styles.profile}>
                 <Avatar
-                    src='https://github.com/entreportes.png'
+                    src={user.avatar}
                 />
-                <strong>{nome}</strong>
-                <span>{empresa}</span>
+                <strong>{user.name}</strong>
+                <span>{company}</span>
             </div>
             {/* <footer>
                 <a href='#'>
@@ -84,13 +89,17 @@ export function SideBar({nome,empresa,navigationChange}:SideBarProps){
                     <Link/>
                     Links úteis
                 </a>
-                <a href='http://localhost:5173/admin/Renato Pantoja/Pantoja Contabilidade'
-                    onClick={() => navigation('admin')}
-                    className= {isSelected === 'admin' ? styles.backgroundSelected : ""}
-                >
-                    <Link/>
-                    Admin
-                </a>
+                {admin ? 
+                    <a href='#'
+                        onClick={() => navigation('manageClient')}
+                        className= {isSelected === 'admin' ? styles.backgroundSelected : ""}
+                    >
+                        <Link/>
+                        Admin
+                    </a>
+                    :
+                    null
+}
             </nav>
 
         </aside>

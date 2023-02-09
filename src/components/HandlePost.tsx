@@ -56,7 +56,7 @@ export function HandlePost(){
                 paragragh: description,
                 link: link,
                 link2: link2,                
-                video: video,
+                video: aux,
             }
             // content: [
             //     {type:'title', content: title},

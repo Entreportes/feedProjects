@@ -1,10 +1,13 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Article, ArticleProps } from "./Article";
 
 import cuid from 'cuid';
 
 import styles from './HandleArticle.module.css'
+import { ArticleCard } from "./ArticleCard";
+import { ArticlePreview } from "./ArticleOpenAI";
+import { useAuth } from "../hooks/useAuth";
 
 
 interface Author{
@@ -19,50 +22,38 @@ interface DevelopmentProps{
 
 export function HandleArticle(){
 
-    const [article,setArticle] =useState<ArticleProps>();
+    const [articles,setArticles] =useState<ArticleProps[]>([]);
 
     const [title,setTitle] = useState('');
     const [tags,setTags] = useState('');
     const [abstract,setAbstract] = useState('');
     const [introduction,setIntroduction] = useState('');
-    // const [development,setDevelopment] = useState<{subtitle: string, content: string}[]>([]);
-    const [subtitle,setSubtitle] = useState([''])
-    const [contentDev,setContentDev] = useState([''])
     const [conclusion,setConclusion] = useState('');
     const [references,setReferences] = useState('');
     const [link,setLink] = useState('');
     const [link2,setLink2] = useState('');
     const [video,setVideo] = useState('');
 
-    const user:Author = {
-        name: 'Renato Pantoja',
-        role: 'Contador Chefe',
-        avatarUrl: 'https://www.pantojacontabilidade.com.br/images/renato2.jpeg'
+    // const user:Author = {
+    //     name: 'Renato Pantoja',
+    //     role: 'Contador Chefe',
+    //     avatarUrl: 'https://www.pantojacontabilidade.com.br/images/renato2.jpeg'
 
-    }
+    // }
+    const {user} = useAuth()
 
     function handleSubmit(){
-        console.log('ARTICLE ENVIADO')
-        console.log(article)
+        console.log('ARTIGO ENVIADO')
+        console.log(articles)
     }
     function handleView(){
         
-        let development:DevelopmentProps[] = [];
-        for(let index = 0; subtitle[index] ; index++) {
-            development = [...development,{subtitle: subtitle[index],content: contentDev[index]}];            
-        }
-        console.log(title)
-        console.log(tags)
-        console.log(abstract)
-        console.log(introduction)
-        console.log(development)
-        console.log(conclusion)
-        console.log(references)
+        
         var aux = ''
         video ? aux = video.split('=')[1] : aux = ''
 
         console.log(aux)
-        const article:ArticleProps = {
+        let article:ArticleProps = {
             id : cuid(),
             author : user,
             publishedAt : new Date,
@@ -70,7 +61,7 @@ export function HandleArticle(){
                 title: title,
                 tags: tags.split(' '),
                 abstract: abstract,
-                introdction: introduction,
+                introduction: introduction,
                 development: inputFields,
                 conclusion: conclusion,
                 references: references,
@@ -78,7 +69,8 @@ export function HandleArticle(){
                 link2: link2, 
             }
         }
-        setArticle(article)
+        setArticles([...articles,article])
+        handleSubmit()
         
     }
     const [inputFields, setInputFields] = useState([{ subtitle: "", content: "" }]);
@@ -102,11 +94,14 @@ export function HandleArticle(){
         data.splice(index, 1)
         setInputFields(data)
     }
+    useEffect(() => {
+
+    },articles)
   
     return (
         <div className={styles.container}>
             <h2>Criar Artigo</h2>
-            <form>
+            <form onSubmit={handleView}>
                 <h3> Título: </h3>
                 <input
                     type='text'
@@ -155,8 +150,8 @@ export function HandleArticle(){
                             
                                 <textarea
                                     name="subtitle"
-                                    placeholder='Subtítulo'
-                                    
+                                    placeholder='Desenvolvimento'
+                                    style={{overflow: 'hidden'}}
                                     required={true}
                                     value={input.subtitle}
                                     onChange={event => handleFormChange(index, event)}
@@ -177,14 +172,9 @@ export function HandleArticle(){
                     )
                 })}
                 <button type="reset" onClick={addFields}>Adicionar Subtítulo</button>
+
                 
                 
-                
-
-
-
-
-
                 <h3>Conclusão:</h3>
                 <textarea
                     name="development"
@@ -234,26 +224,72 @@ export function HandleArticle(){
                 >
                     Visualizar Artigo
                 </button>
-                
+            </form>
+            {articles[length] ? 
+                <Article 
+                    id={articles[length].id}
+                    author={articles[length].author}
+                    content={articles[length].content}
+                    publishedAt={articles[length].publishedAt}
+                    commentOFF                 
+                />
+                :
+                null
+        
+            }
+            <button
+                type='submit'
+                onClick={handleSubmit}                
+            >
+                Enviar Artigo
+            </button>  
+            <ArticlePreview
+                title="The Effects of Climate Change on Polar Bears"
+                abstract="This study investigates the impacts of climate change on the polar bear population in the Arctic. Results suggest that the polar bear population is declining due to the loss of sea ice habitat and a decrease in food availability."
+                keywords={["climate change", "polar bears", "Arctic", "sea ice", "habitat", "food availability"]}
+                user={user}
+                articleId="https://github.com/renatomh.png" 
+            />
 
-
-            </form>   
-
-            {article ? 
-                <div>
-                    <Article
-                        id={article.id}
-                        author={article.author}
-                        content={article.content}
-                        publishedAt={article.publishedAt}
-                        commentOFF={true}
-                    />
-                    <button
-                        type='submit'
-                        onClick={handleSubmit}                
-                    >
-                        Enviar Artigo
-                    </button>
+            
+            {articles ? 
+                <div >
+                    {articles.map( (article) => {
+                        
+                        return(
+                            <ArticleCard
+                                key={article.id}
+                                id={article.id}
+                                author={article.author}
+                                content={article.content}
+                                publishedAt={article.publishedAt}
+                                commentOFF={true}
+                            />
+                        )
+                    })}
+                    {/* <Article
+                        id={articles[length-1].id}
+                        author={articles[length-1].author}
+                        content={articles[length-1].content}
+                        publishedAt={articles[length-1].publishedAt}
+                        commentOFF                   
+                    /> */}
+                    {/* { articles[articles.length-1].id != '' ?
+                        <div>
+                            <ArticleCard
+                                id={articles[articles.length].id}
+                                author={articles[articles.length].author}
+                                content={articles[articles.length].content}
+                                publishedAt={articles[articles.length].publishedAt}
+                            />
+                            <button
+                                type='submit'
+                                onClick={handleSubmit}                
+                            >
+                                Enviar Artigo
+                            </button>
+                        </div>
+                    :null} */}
                 </div>
 
             :

@@ -3,6 +3,7 @@ import styles from './LoginComponent.module.css'
 import * as yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup'
 import {useForm, Controller} from 'react-hook-form'
+import { useAuth } from '../hooks/useAuth'
 
 
 type FormDataProps = {
@@ -15,24 +16,38 @@ const signUpSchema = yup.object({
     email: yup.string().required('Informe o email').trim().email('E-mail inválido'),
     password: yup.string().required('Informe a senha').min(6,'A senha deve ter no mínimo 6 caracteres.'),
 })
+interface LoginComponentProps {
+    signIn: (email:string, password:string) => void
+}
+export function LoginComponent( {signIn}:LoginComponentProps){
 
-export function LoginComponent(){
+    // const [auth] = useLocalStorage('auth',{} as UserDTO)
+    // const userData = auth as UserDTO
+    // console.log('user do auth',userData)
+    // if(user){
+    //     return null 
+    //     // location.href = `http://localhost:5173/home/${user.name}/${user.company.name}`
+    // }
+
 
     const {control, handleSubmit, formState: {errors}} = useForm<FormDataProps>({
         resolver: yupResolver(signUpSchema)
     });
-    
+
+
     function handleSignIn({email,password}: FormDataProps){
         
-        console.log('ENTROU')
+        console.log('fazendo signIn')
 
-        const email_aux = email.split("@")
-        const nome = email_aux[0].replace("_"," ")
-        const empresa = email_aux[1].split(".")[0].replace("_"," ")
-        // location.href = `https://feed-projects-git-master-entreportes.vercel.app/home/${nome}/${empresa}`
         
-        location.href = `http://localhost:5173/home/${nome}/${empresa}` 
+
+        signIn(email,password);
+
+        
+        // location.href = `https://feed-projects-git-master-entreportes.vercel.app/home/${nome}/${empresa}`
+        // location.href = `http://localhost:5173/home/${nome}/${empresa}` 
     }
+
     return(
         <div className={styles.container}>
 

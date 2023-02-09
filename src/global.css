@@ -52,4 +52,8 @@ body a{
 
 body a:hover{
   color: var(--purple-300);
-}  
+}
+
+:disabled{
+  pointer:not-allowed;
+}
