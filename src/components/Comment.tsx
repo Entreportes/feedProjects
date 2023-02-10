@@ -1,4 +1,4 @@
-import { ThumbsUp, Trash, User } from 'phosphor-react'
+import { ThumbsUp, Trash, HandsClapping  } from 'phosphor-react'
 import { useState } from 'react'
 import { Avatar } from './Avatar'
 import styles from './Comment.module.css'
@@ -65,7 +65,7 @@ export function Comment({content, onDeleteComment, publishedAt, author}:CommentP
                     
                     */}
                     <button onClick={handleLikeComment}> 
-                        <ThumbsUp/>
+                        <HandsClapping />
                         Aplaudir<span>{likeCount}</span>
                     </button>
                 </footer>

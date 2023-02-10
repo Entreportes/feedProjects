@@ -4,21 +4,27 @@
     padding: 2.5rem;
     
 }
+.container h2{
+    margin-bottom: 1rem;
+}
 
-.container label {
+.container h3 {
     color: var(--gray-100);
     margin-bottom: 0.5rem;
 }
 
 .container input,textarea {
     border-radius: 8px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     padding: 0.75rem;
     /* width: 100%; */
     background: var(--gray-900);
     color: var(--gray-300);
     border: 0;
     resize: none;
+}
+.container form > textarea{
+    width:auto;
 }
 
 .container input:focus-visible,textarea:focus-visible  {

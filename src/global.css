@@ -46,12 +46,12 @@ body a:hover{
 }   */
 body a{
   font-weight: bold;
-  color: var(--purple-500);
+  color: var(--green-500);
   text-decoration: none;
 }
 
 body a:hover{
-  color: var(--purple-300);
+  color: var(--green-300);
 }
 
 :disabled{

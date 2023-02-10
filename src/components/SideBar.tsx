@@ -1,10 +1,8 @@
 import styles from './SideBar.module.css'
 import '../global.css'
-import {PencilLine, Calculator, Student, Bank, File, Link} from 'phosphor-react'
+import {PencilLine, Calculator, Student, Bank, File, Link,BookBookmark,UserCircleGear    } from 'phosphor-react'
 import { Avatar } from './Avatar'
 import { useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import { CompanyDTO } from '../dtos/CompanyDTO';
 import { UserDTO } from '../dtos/UserDTO';
 
 
@@ -65,7 +63,7 @@ export function SideBar({user,company,navigationChange,admin}:SideBarProps){
                     onClick={() => navigation('article')}
                     className= {isSelected === 'article' ? styles.backgroundSelected : ""}
                 >
-                    <Student/>
+                    <BookBookmark  />
                     Artigos
                 </a>
                 <a href='#' 
@@ -91,10 +89,10 @@ export function SideBar({user,company,navigationChange,admin}:SideBarProps){
                 </a>
                 {admin ? 
                     <a href='#'
-                        onClick={() => navigation('manageClient')}
+                        onClick={() => navigation('admin')}
                         className= {isSelected === 'admin' ? styles.backgroundSelected : ""}
                     >
-                        <Link/>
+                        <UserCircleGear/>
                         Admin
                     </a>
                     :

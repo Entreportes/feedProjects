@@ -5,6 +5,7 @@ import { HandlePost } from "../HandlePost";
 import {MenuBar} from "../MenuBar"
 
 import styles from "./ManageClient.module.css"
+import { SearchArticle } from "../SearchArticle";
 
 
 export function ManageClient(){
@@ -89,12 +90,14 @@ export function ManageClient(){
         {navigation === 'client' ?
             
             
-            <div>
+          <div>
+            <div className={styles.menuBarSecondary}>
               <h2>Empresas</h2>
-            <MenuBar
-              items={itemsClients}
-              option= 'secondary'
-            />
+              <MenuBar
+                items={itemsClients}
+                option= 'secondary'
+              />
+            </div>
             {optionsClient === "create" ?
               <h2>Criar Empresa</h2>
               :
@@ -116,21 +119,21 @@ export function ManageClient(){
         :
         navigation === 'article'  ?
             
-          <div>
+        <div>
+          <div className={styles.menuBarSecondary}>
             <h2>Artigos</h2>
             <MenuBar
               items={itemsOption}
               option= 'secondary'
             />
-            {options === "search" ?
-              <h1>Procurar Artigo</h1>
-              :
-              <HandleArticle/>   
-          
-            }                
-        
           </div>
-    
+          {options === "search" ?
+            <SearchArticle/>
+            :
+            <HandleArticle/>   
+        
+          }                    
+        </div>    
         :
         navigation === 'post' ? 
                 

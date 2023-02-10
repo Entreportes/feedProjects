@@ -8,6 +8,7 @@ import styles from './HandleArticle.module.css'
 import { ArticleCard } from "./ArticleCard";
 import { ArticlePreview } from "./ArticleOpenAI";
 import { useAuth } from "../hooks/useAuth";
+import { Trash } from "phosphor-react";
 
 
 interface Author{
@@ -156,7 +157,9 @@ export function HandleArticle(){
                                     value={input.subtitle}
                                     onChange={event => handleFormChange(index, event)}
                                 />
-                                <button type="reset" onClick={()=>removeFields(index)}>-</button>
+                                <button type="reset" onClick={()=>removeFields(index)}>
+                                    <Trash size={20}/>
+                                </button>
                             </div>
                             <h5> Conteúdo:</h5>
                             <textarea

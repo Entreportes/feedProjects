@@ -107,7 +107,7 @@ export function Article({id, author, publishedAt, content, commentOFF=false}:Art
             
             <div className={styles.content}>
                 { content.title ? <h1>{content.title}</h1> : null}
-                { content.tags ? content.tags.map( tag => (<a href={`/ensino/${tag}?`} target="_blank">{tag} </a>)) : null }
+                { content.tags ? content.tags.map( tag => (<a href={`/artigos/${tag}?`} target="_blank">{tag} | </a>)) : null }
                      
                 { content.abstract ? 
                     <div>

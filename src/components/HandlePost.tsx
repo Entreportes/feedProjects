@@ -74,9 +74,9 @@ export function HandlePost(){
 
     return (
         <div className={styles.container}>
-            <h3>Criar Post</h3>
+            <h2>Criar Post</h2>
             <form>
-                <label> Título </label>
+                <h3> Título </h3>
                 <input
                     type='text'
                     placeholder='Título'
@@ -85,7 +85,7 @@ export function HandlePost(){
                     value={title}                
                 />
                 
-                <label> Tags </label>
+                <h3> Tags </h3>
                 <input
                     type='text'
                     placeholder='Tags'  
@@ -93,7 +93,7 @@ export function HandlePost(){
                     value={tags}                
                 />
 
-                <label> Descrição </label>
+                <h3> Descrição </h3>
                 <textarea
                     name="description"
                     placeholder='Descrição do vídeo'
@@ -103,7 +103,7 @@ export function HandlePost(){
                     value={description}  
                 />
 
-                <label> Link </label>
+                <h3> Link </h3>
                 <input
                     type='url'
                     placeholder='link'
@@ -111,7 +111,7 @@ export function HandlePost(){
                     value={link}                  
                 />
 
-                <label> Link 2 </label>
+                <h3> Link 2 </h3>
                 <input
                     type='url'
                     placeholder='link'
@@ -119,7 +119,7 @@ export function HandlePost(){
                     value={link2}                  
                 />
 
-                <label> Link vídeo </label>
+                <h3> Link vídeo </h3>
                 <input
                     type='url'
                     placeholder='Link vídeo'
