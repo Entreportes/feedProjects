@@ -33,16 +33,22 @@ body{
 .wrapper img{
     max-height: 8rem;
 }
-.wrapper a{
+.wrapper > a{
     max-height: 10rem;
     font-weight: bold;
     color: var(--gray-100);
     text-decoration: none;
 }
-.wrapper a:hover{
+.wrapper > a:hover{
     color: var(--white)
 }
-
+.wrapper div > a {
+    color: var(--purple-500)
+}
+.wrapper div > a:hover {
+    color: var(--purple-300);
+    cursor: pointer;
+}
 h4{
     color: var(--gray-300)
 }

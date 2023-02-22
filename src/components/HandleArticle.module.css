@@ -26,7 +26,11 @@
 .container form > textarea{
     width:auto;
 }
-
+.double{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 .container input:focus-visible,textarea:focus-visible  {
     outline: 2px solid var(--green-300);
 }

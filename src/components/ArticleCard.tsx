@@ -4,7 +4,7 @@ import { Avatar } from "./Avatar";
 
 
 
-export function ArticleCard({id, author,content,publishedAt }:ArticleProps){
+export function ArticleCard({id, author, title, abstract, tags ,createdAt }:ArticleProps){
 
     return(
         <div className={styles.container}>
@@ -13,14 +13,15 @@ export function ArticleCard({id, author,content,publishedAt }:ArticleProps){
                     src={author.avatar}
                     style={{margin:'8px'}}
                 />
+                <h3>{author.name}</h3>
                 <div>
                     <div className={styles.tags}> 
-                        {content.tags?.map( tag => (<a href={`/ensino/${tag}?`} target="_blank">#{tag} </a>))}
+                        {tags.split(' ')?.map( tag => (<a href={`/ensino/${tag}?`} target="_blank">#{tag} </a>))}
                     </div>
-                    <h3>{content.title}</h3>
+                    <h3>{title}</h3>
                 </div>
             </div>
-            <p>{content.abstract}</p>
+            <p>{abstract}</p>
         </div>
     )
 }

@@ -9,6 +9,10 @@ import { ArticleCard } from "./ArticleCard";
 import { ArticlePreview } from "./ArticleOpenAI";
 import { useAuth } from "../hooks/useAuth";
 import { Trash } from "phosphor-react";
+import { api } from "../services/api";
+import { AIcreaterArticle } from "./AIcreaterArticle";
+import { boolean } from "yup";
+import Loading from "./Loading";
 
 
 interface Author{
@@ -20,20 +24,23 @@ interface DevelopmentProps{
     subtitle: string;
     content: string;
 }
+// interface Props{
+//     setIsLoading: (status:boolean) => void
+// }
 
 export function HandleArticle(){
 
     const [articles,setArticles] =useState<ArticleProps[]>([]);
+    const [article,setArticle] =useState<ArticleProps>({}as ArticleProps);
+    const [selectIA,setSelectIA] = useState(false)
 
     const [title,setTitle] = useState('');
     const [tags,setTags] = useState('');
     const [abstract,setAbstract] = useState('');
-    const [introduction,setIntroduction] = useState('');
-    const [conclusion,setConclusion] = useState('');
     const [references,setReferences] = useState('');
     const [link,setLink] = useState('');
     const [link2,setLink2] = useState('');
-    const [video,setVideo] = useState('');
+    const [isLoading, setIsLoading] = useState(false)
 
     // const user:Author = {
     //     name: 'Renato Pantoja',
@@ -42,39 +49,45 @@ export function HandleArticle(){
 
     // }
     const {user} = useAuth()
-
-    function handleSubmit(){
-        console.log('ARTIGO ENVIADO')
-        console.log(articles)
-    }
-    function handleView(){
+    
+      
+    async function handleSubmit(){
         
-        
-        var aux = ''
-        video ? aux = video.split('=')[1] : aux = ''
-
-        console.log(aux)
-        let article:ArticleProps = {
-            id : cuid(),
-            author : user,
-            publishedAt : new Date,
-            content: {
-                title: title,
-                tags: tags.split(' '),
-                abstract: abstract,
-                introduction: introduction,
-                development: inputFields,
-                conclusion: conclusion,
-                references: references,
-                link: link,
-                link2: link2, 
-            }
+        try {
+            setIsLoading(true)
+            const res = await api.post('/article',article,)
+            console.log('ARTIGO ENVIADO',res)
+            
+            
+        } catch (error) {
+            console.log('Erro ao enviar o arquivo')
+            throw error
+        }finally{
+            setIsLoading(false)
         }
-        setArticles([...articles,article])
-        handleSubmit()
+    }
+
+    function handleView(event: React.FormEvent<HTMLFormElement>){
+        event.preventDefault();
+       
+        let articleToSend = {
+            id: cuid(),
+            author: user,
+            title: title,
+            tags: tags,
+            abstract: abstract,
+            content: {
+                inputFields
+            },
+            references: references,
+            link1: link,
+            link2: link2,
+        }as ArticleProps
+        setArticle(articleToSend)
+        setArticles([...articles,articleToSend])
         
     }
-    const [inputFields, setInputFields] = useState([{ subtitle: "", content: "" }]);
+    const [inputFields, setInputFields] = useState([{ subtitle: "Introdução", content: "" },{ subtitle: "Desenvolvimento", content: "" },{ subtitle: "Conclusão", content: "" }]);
      
     const handleFormChange = (index: any , event:React.ChangeEvent<HTMLTextAreaElement>): void => {
         
@@ -95,13 +108,46 @@ export function HandleArticle(){
         data.splice(index, 1)
         setInputFields(data)
     }
-    useEffect(() => {
+    function loadingAI(){
+        
+        setTitle(article.title)
+        setTags(article.tags)
+        setAbstract(article.abstract)
+        console.log('INPUTFIELDS',article.content.inputFields[0])
+        setInputFields(article.content.inputFields)
+        setReferences(article.references)
 
-    },articles)
+        console.log(article.abstract,tags)
+                        
+        
+    }
+    
+    useEffect(()=>{
+        if (article.content?.inputFields[0] !== undefined){
+            loadingAI()
+        }
+    },[article])
   
     return (
+      <Loading
+        isLoading={isLoading}
+        text="Fazendo nossa mágica..."
+      >
         <div className={styles.container}>
-            <h2>Criar Artigo</h2>
+            <div className={styles.double}>
+                <h2>Criar Artigo</h2>
+                <button style={{maxWidth: '20rem'}} type="reset" onClick={()=>setSelectIA(!selectIA)}>
+                    Sem idéia? Utilize nossa Inteligência Artificial e se supreenda
+                </button>
+            </div>
+            {selectIA ? 
+                <AIcreaterArticle
+                    setText={setArticle}
+                    setIsLoading2={setIsLoading}
+                />
+                :
+                null
+            }
             <form onSubmit={handleView}>
                 <h3> Título: </h3>
                 <input
@@ -109,7 +155,8 @@ export function HandleArticle(){
                     placeholder='Título'
                     required
                     onChange={(event) => setTitle(event.target.value)}
-                    value={title}                
+                    value={title}
+                                    
                 />
                 
                 <h3> Tags: </h3>
@@ -117,18 +164,8 @@ export function HandleArticle(){
                     type='text'
                     placeholder='Tags'  
                     onChange={(event) => setTags(event.target.value)}
-                    value={tags}                
-                />
-
-                
-                <h3>Introdução:</h3>
-                <textarea
-                    name="introduction"
-                    placeholder='Introdução'
-                    aria-multiline
-                    required={true}
-                    onChange={(event) => setIntroduction(event.target.value)}
-                    value={introduction}  
+                    value={tags}
+                    required                
                 />
 
 
@@ -137,12 +174,12 @@ export function HandleArticle(){
                     name="abstract"
                     placeholder='Resumo'
                     aria-multiline
-                    required={true}
+                    required
                     onChange={(event) => setAbstract(event.target.value)}
                     value={abstract}  
                 />
 
-                <h3> Desenvolvimento: </h3>
+                <h3> Capítulos: </h3>
                 {inputFields.map((input,index) => {
                     return(
                         <div key={index} className={styles.development}>
@@ -151,20 +188,20 @@ export function HandleArticle(){
                             
                                 <textarea
                                     name="subtitle"
-                                    placeholder='Desenvolvimento'
+                                    placeholder='Dê um subtítulo'
                                     style={{overflow: 'hidden'}}
                                     required={true}
                                     value={input.subtitle}
                                     onChange={event => handleFormChange(index, event)}
                                 />
-                                <button type="reset" onClick={()=>removeFields(index)}>
+                                <button type="reset" onClick={()=>removeFields(index)} disabled={inputFields.length > 1 ? false : true}>
                                     <Trash size={20}/>
                                 </button>
                             </div>
                             <h5> Conteúdo:</h5>
                             <textarea
                                 name="content"
-                                placeholder='Desenvolvimento...'
+                                placeholder='Escreva sobre o capitulo'
                                 aria-multiline
                                 className={styles.contentDev}
                                 required={true}
@@ -174,20 +211,9 @@ export function HandleArticle(){
                         </div>
                     )
                 })}
-                <button type="reset" onClick={addFields}>Adicionar Subtítulo</button>
+                <button type="reset" onClick={addFields}>+ capítulo</button>
 
                 
-                
-                <h3>Conclusão:</h3>
-                <textarea
-                    name="development"
-                    placeholder='Conclusão...'
-                    aria-multiline
-                    required={true}
-                    onChange={(event) => setConclusion(event.target.value)}
-                    value={conclusion}  
-                />
-
                 <h3>Referências:</h3>
                 <textarea
                     name="development"
@@ -222,37 +248,47 @@ export function HandleArticle(){
                     value={video}  
                 /> */}
                 <button
-                    type='button'
-                    onClick={handleView}                
+                    type='submit'
                 >
                     Visualizar Artigo
                 </button>
             </form>
             {articles[length] ? 
-                <Article 
-                    id={articles[length].id}
-                    author={articles[length].author}
-                    content={articles[length].content}
-                    publishedAt={articles[length].publishedAt}
-                    commentOFF                 
-                />
+                
+                <div>
+                    <Article 
+                        id={article.id}
+                        author={article.author}
+                        content={article.content}
+                        createdAt={article.createdAt}
+                        abstract={article.abstract}
+                        references={article.references}
+                        tags={article.tags}
+                        title={article.title}
+                        link1={article.link1}
+                        link2={article.link2}
+                        updatedAt={article.updatedAt}
+                        
+                        commentOFF   
+                                   
+                    />
+                    
+                    <button type="reset" onClick={handleSubmit} style={{marginTop: "1rem"}}>
+                        Enviar Artigo
+                    </button>
+                </div>
                 :
                 null
         
             }
-            <button
-                type='submit'
-                onClick={handleSubmit}                
-            >
-                Enviar Artigo
-            </button>  
-            <ArticlePreview
+             
+            {/* <ArticlePreview
                 title="The Effects of Climate Change on Polar Bears"
                 abstract="This study investigates the impacts of climate change on the polar bear population in the Arctic. Results suggest that the polar bear population is declining due to the loss of sea ice habitat and a decrease in food availability."
                 keywords={["climate change", "polar bears", "Arctic", "sea ice", "habitat", "food availability"]}
                 user={user}
                 articleId="https://github.com/renatomh.png" 
-            />
+            /> */}
 
             
             {articles ? 
@@ -261,15 +297,24 @@ export function HandleArticle(){
                         
                         return(
                             <ArticleCard
-                                key={article.id}
-                                id={article.id}
-                                author={article.author}
-                                content={article.content}
-                                publishedAt={article.publishedAt}
-                                commentOFF={true}
+                                id={articles[length].id}
+                                author={articles[length].author}
+                                content={articles[length].content}
+                                createdAt={articles[length].createdAt}
+                                abstract={articles[length].abstract}
+                                references={articles[length].references}
+                                tags={articles[length].tags}
+                                title={articles[length].title}
+                                link1={articles[length].link1}
+                                link2={articles[length].link2}
+                                updatedAt={articles[length].updatedAt}
+                                
+                                   
                             />
                         )
                     })}
+                    
+                    
                     {/* <Article
                         id={articles[length-1].id}
                         author={articles[length-1].author}
@@ -296,8 +341,9 @@ export function HandleArticle(){
                 </div>
 
             :
-            <div></div>
+            null
             }
         </div>
+      </Loading>
     )
 }

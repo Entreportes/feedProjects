@@ -3,11 +3,13 @@ import { Comment } from './Comment'
 import styles from './Post.module.css'
 import YouTube from 'react-youtube';
 
-import { format, formatDistanceToNow, parseISO, getDate, toDate, parse } from "date-fns";
+import { format, formatDistanceToNow, parseISO, getDate, toDate, parse, formatISO } from "date-fns";
 import ptBR from 'date-fns/locale/pt-BR'
 import { ChangeEvent, FormEvent, InvalidEvent, useState} from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { Trash } from 'phosphor-react';
+import { api } from '../services/api';
+import cuid from 'cuid';
 
 
 
@@ -17,46 +19,62 @@ interface Author{
     avatarUrl: string;
 }
 
-// export interface PostProps{
-//     id: string;
-//     author: Author;
-//     publishedAt: Date;
-//     content: {
-//       type: 'paragraph'|'link'|'video'|'title'|'tags';
-//       content: string;
-//     }[];
-//     commentOFF?: boolean
-// }
-export interface PostProps{
+interface CommentProps{
     id: string;
     author: Author;
-    publishedAt: Date;
-    content: {
-        title?: string;
-        tags?: string[];
-        paragragh?: string;
-        link?: string;
-        link2?: string;
-        image?: string;
-        video?: string;
-    }
-    commentOFF?: boolean;
-    admin?: boolean;
-    card?: boolean;
-}
-interface CommentProps{
-    author: string
     comment: string;
     publishedAt: Date;
 }
+export interface PostProps{
+    id: string;
+    author: Author;
+    createdAt?: Date;
+    updatedAt?: Date;
+    title: string;
+    tags: string;
+    description?: string;
+    link1?: string;
+    link2?: string;
+    image?: string;
+    video?: string;
+    comments?: CommentProps[]
+}
 
 
-export function Post({id, author, publishedAt, content, commentOFF=false, admin=false, card=false}:PostProps){
+type PostComponentProps = PostProps & {
+    commentOFF?: boolean;
+    admin?: boolean;
+    card?: boolean;
+
+}
+export async function getPost(){
+    
+    const [posts,setPosts] = useState<PostProps[]>([])
+    const [loading,setLoading] = useState(false)
+
+    try {
+        setLoading(true)
+        const response = await api.get('/posts',
+            
+        )
+        setPosts(response.data)
+
+    } catch (error) {
+        console.log('não foi possível carregar os posts')
+        throw error
+    }finally{
+        setLoading(false)
+    }
+    return posts
+}
+
+export function Post({id, author, tags, createdAt = new Date, title, description, commentOFF=false, admin=false, card=false, link1, link2, video}: PostComponentProps){
 
     const [comments,setComments] = useState<CommentProps[]>([])
 
     const [newCommentText,setNewCommentText] = useState('');
     const {user} = useAuth()
+    const createdAtAux = new Date(createdAt)
 
     const opts = {
         width: '100%',
@@ -71,11 +89,11 @@ export function Post({id, author, publishedAt, content, commentOFF=false, admin=
         setNewCommentText(event.target.value)
     }
     
-    const publishedAtDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'",{
+    const publishedAtDateFormatted = format(createdAtAux, "d 'de' LLLL 'às' HH:mm'h'",{
         locale: ptBR
     })
 
-    const publishedDateRelativeToNow= formatDistanceToNow(publishedAt,{
+    const publishedDateRelativeToNow= formatDistanceToNow(createdAtAux,{
         locale: ptBR,
         addSuffix: true,
     })
@@ -83,11 +101,13 @@ export function Post({id, author, publishedAt, content, commentOFF=false, admin=
     function handleCreateNewComment() {
         console.log('entrou aqui')
         //event.preventDefault()
-        const newComment:CommentProps = {
-            author:"Usuário não conectado",
+        const newComment = {
+            id: cuid(),
+            author: author,
             comment:newCommentText,
-            publishedAt: new Date()
-        }
+            publishedAt: new Date(),
+
+        } as CommentProps
         console.log(newCommentText)
         newCommentText.replaceAll('\n',"{'\n'}")
         setComments([...comments,newComment])
@@ -107,7 +127,7 @@ export function Post({id, author, publishedAt, content, commentOFF=false, admin=
         setComments(commentWithoutDeleteOne)
     }
     function handleDeletePost(){
-        console.log('deletar Post', content.title)
+        console.log('deletar Post', title)
         console.log('deletar Post id:', id)
     }
 
@@ -117,14 +137,14 @@ export function Post({id, author, publishedAt, content, commentOFF=false, admin=
             <header>
                 <div className={styles.author}>
                     <Avatar
-                        src={author.avatarUrl}
+                        src={author.avatarUrl? author.avatarUrl : 'oajfo'}
                     />
                     <div className={styles.authorInfo}>
                         <strong>{author.name}</strong>
                         <span>{author.role}</span>
                     </div>
                 </div>
-                <time title={publishedAtDateFormatted} dateTime={publishedAt.toISOString()}>
+                <time title={publishedAtDateFormatted} dateTime={createdAtAux.toISOString()}>
                     {publishedDateRelativeToNow}
                     {admin ? 
                     <button onClick={handleDeletePost} className={styles.TrashButton} title="Deletar Post">
@@ -141,24 +161,24 @@ export function Post({id, author, publishedAt, content, commentOFF=false, admin=
             </header>
             {!card ? 
             <div className={styles.content}>
-                { content.title ? <h3>{content.title}</h3> : null}
-                { content.tags ? content.tags.map( tag => (<a href={`/ensino/#${tag}?`} target="_blank">#{tag} </a>)) : null }
+                { title ? <h3>{title}</h3> : null}
+                { tags ? tags.split(' ').map( tag => (<a key={tag} href={`/ensino/#${tag}?`} target="_blank">#{tag} </a>)) : null }
                      
-                { content.paragragh ? <p>{content.paragragh}</p> : null}
-                { content.link ? <p key={content.link}><a href={content.link}>{content.link}</a></p> : null}
-                { content.link2 ? <p key={content.link2}><a href={content.link}>{content.link}</a></p> : null}
-                { content.video ? 
+                { description ? <p>{description}</p> : null}
+                { link1 ? <p key={link1}><a href={link1}>{link1}</a></p> : null}
+                { link2 ? <p key={link2}><a href={link2}>{link2}</a></p> : null}
+                { video ? 
                     
                     <YouTube
-                        videoId = {content.video}
+                        videoId = {video}
                         opts= {opts} 
                     />
                 : null }
             </div>
             :
             <div className={styles.content}>                
-                { content.title ? <h3>{content.title}</h3> : null}
-                { content.tags ? content.tags.map( tag => (<a href={`/ensino/#${tag}?`} target="_blank">#{tag} </a>)) : null }
+                { title ? <h3>{title}</h3> : null}
+                { tags ? tags.split(' ').map( tag => (<a href={`/ensino/#${tag}?`} target="_blank">#{tag} </a>)) : null }
             </div>
             }
             {commentOFF ?

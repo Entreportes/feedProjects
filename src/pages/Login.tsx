@@ -1,5 +1,7 @@
 
+import { useState } from 'react'
 import { LoginComponent } from '../components/LoginComponent'
+import { RegisterComponent } from '../components/RegisterComponent'
 import '../global.css'
 import { useAuth } from '../hooks/useAuth'
 import styles from './Login.module.css'
@@ -11,6 +13,9 @@ const site = 'https://www.pantojacontabilidade.com.br'
 
 
 export function Login(){
+
+
+    const [newUser,setNewUser] = useState(false)
     const {signIn} = useAuth()
     return(
         <div className={styles.container}>
@@ -19,12 +24,21 @@ export function Login(){
                     <img src={logo}/>
                     <h1>{name}</h1>
                 </a>
-                <LoginComponent
-                    signIn={signIn}
-                />
+                {newUser ?
+                    <RegisterComponent
+                        signIn={signIn}
+                        setUser={setNewUser}
+                    />
+                :
+                    <LoginComponent
+                        signIn={signIn}
+                    />
+                }
+                
                 <div>
-                    <h4>Porque hoje só existe o hoje,</h4>
-                    <h4>e o hoje só existe hoje.</h4>
+                    <a onClick={()=>setNewUser(!newUser)}>{newUser ? 'Se for nosso cliente, clique aqui!' : 'Ainda não é cliente? Se registre aqui'}</a>
+                    <h4 style={{marginTop:'3rem'}}>Porque hoje só existe o hoje,<br></br>
+                    e o hoje só existe hoje.</h4>
 
                 </div>
 

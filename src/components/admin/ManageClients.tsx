@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { SearchPost } from "../SearchPost";
 import { HandleArticle } from "../HandleArticle";
 import { HandlePost } from "../HandlePost";
@@ -6,11 +6,17 @@ import {MenuBar} from "../MenuBar"
 
 import styles from "./ManageClient.module.css"
 import { SearchArticle } from "../SearchArticle";
+import { CreateClient } from "./CreateClient";
+import { SearchCompany } from "../SearchCompany";
 
+interface Props{
+  setIsLoading: (status:boolean) => void
+}
 
-export function ManageClient(){
+export function ManageClient({setIsLoading}:Props){
 
   const [navigation, setNavigation] =useState<'post'|'article'|'client'>('article')
+  const [companyId,setCompanyId] = useState<string | null>(null)
   
   const items = [
       {
@@ -77,7 +83,9 @@ export function ManageClient(){
       }
     ];
     
-  
+    useEffect(() => {
+      setCompanyId(null)
+    },[optionsClient])
   return(
     <div>
       <h2>Gerenciamento</h2>
@@ -99,16 +107,45 @@ export function ManageClient(){
               />
             </div>
             {optionsClient === "create" ?
-              <h2>Criar Empresa</h2>
+              <CreateClient
+                edit={false}
+              />
               :
               optionsClient === "delete" ?
-              <h2>Deletar Empresa</h2>
+              
+              <div>
+                <h2>Deletar Empresa</h2>
+                <SearchCompany
+                  setCompanyId={setCompanyId}
+                />
+                {companyId ?
+                  <h3>Deletar empresa: {companyId}</h3> 
+                  // <CompanyCard
+                  //   companyId={companyId}
+                  //   delete={true}
+                  // />
+                : null}
+              </div>
               :
               optionsClient === "edit" ?
-              <h2>Editar Empresa</h2>
+                <div>
+                  <SearchCompany
+                    setCompanyId={setCompanyId}
+                    edit={true}
+                  />
+                  {companyId ? 
+                    <CreateClient
+                      companyId={companyId}
+                      edit={true}
+                  />
+                  : null}
+                </div>
+              
               :
               optionsClient === "search" ?
-              <h2>Procurar Empresa</h2>
+              <SearchCompany
+                setCompanyId={setCompanyId}
+              />
               :
               <h1>Listar empresas</h1>  
           
@@ -148,7 +185,9 @@ export function ManageClient(){
             {options === "search" ?
                 <SearchPost/>
               :              
-                <HandlePost/>   
+                <HandlePost
+                  setIsLoading={setIsLoading}
+                />   
           
             }                 
             

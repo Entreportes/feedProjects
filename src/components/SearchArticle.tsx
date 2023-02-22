@@ -33,6 +33,9 @@ export function SearchArticle(){
     console.log(article)        
 
   }
+
+  
+
   function SearchArticleByTags(){
     setArticle([])
     setCardOption(false)

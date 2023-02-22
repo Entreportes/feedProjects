@@ -14,18 +14,11 @@
     text-align: start;
 }
 
-.container label {
+.container > label {
     margin-top: 1rem;
 }
-.container > p > a{
-    color: var(--purple-500);
-}
-.container p > a:hover{
-    color: var(--purple-300);
-    cursor: pointer;
-}
 
-.container input[type=email], input[type=password] {   
+.inputs {   
       
     margin-top: 12px;  
     padding: 12px 20px;   
@@ -50,8 +43,14 @@ span {
     color: #8F00C8;
     text-decoration: none;
 } */
-
-.container button{   
+.container > p > a{
+    color: var(--purple-500);
+}
+.container p > a:hover{
+    color: var(--purple-300);
+    cursor: pointer;
+}
+.container > button{   
     background: var(--purple-500);   
     /* width: 100%;   */
     color: var(--gray-100);
@@ -64,7 +63,7 @@ span {
     font-size: 1rem;
     transition: background-color 500ms;
 } 
-.container button:hover {
+.container > button:hover {
     font-weight: bold;
     background: var(--purple-300);   
 }

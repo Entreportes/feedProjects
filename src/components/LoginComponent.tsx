@@ -49,47 +49,49 @@ export function LoginComponent( {signIn}:LoginComponentProps){
     }
 
     return(
-        <div className={styles.container}>
-
-            <h3>Acesso restrito</h3>
-            <label>Login: </label>
-            <Controller
-                control={control}
-                name="email"
-                render={({field: {onChange, value}}) => (
-                    <input
-                        type='email'
-                        placeholder='E-mail'
-                        onChange={onChange}
-                        value={value}
-                    />
-                )}
-            />
-            <span>{errors.email?.message}</span>
-
-            <label>Senha: </label>
-            <Controller
-                control={control}
-                name="password"
-                render={({field: {onChange, value}}) => (
-                    <input
-                        type='password'
-                        placeholder='Senha'
-                        onChange={onChange}
-                        value={value}
-                    />
-                )}
-            />
-            <span>{errors.password?.message}</span>
-
-            <button
-                type='submit'
-                onClick={handleSubmit(handleSignIn)}                
-            >
-                Entrar
-            </button>
-            <p>Esqueceu a senha? <a target='_blank' href="https://api.whatsapp.com/send?phone=5561981664662&text=Olá, Renato! Esqueci minha senha, poderia me auxiliar?">Clique aqui</a></p>
-            
-        </div>        
+        <form>
+            <div className={styles.container}>
+    
+                <h3>Acesso restrito</h3>
+                <label>Login: </label>
+                <Controller
+                    control={control}
+                    name="email"
+                    render={({field: {onChange, value}}) => (
+                        <input
+                            type='email'
+                            placeholder='E-mail'
+                            onChange={onChange}
+                            value={value}
+                        />
+                    )}
+                />
+                <span>{errors.email?.message}</span>
+    
+                <label>Senha: </label>
+                <Controller
+                    control={control}
+                    name="password"
+                    render={({field: {onChange, value}}) => (
+                        <input
+                            type='password'
+                            placeholder='Senha'
+                            onChange={onChange}
+                            value={value}
+                        />
+                    )}
+                />
+                <span>{errors.password?.message}</span>
+    
+                <button
+                    type='submit'
+                    onClick={handleSubmit(handleSignIn)}                
+                >
+                    Entrar
+                </button>
+                <p>Esqueceu a senha? <a target='_blank' href="https://api.whatsapp.com/send?phone=5561981664662&text=Olá, Renato! Esqueci minha senha, poderia me auxiliar?">Clique aqui</a></p>
+                
+            </div>    
+        </form>    
     )
 }

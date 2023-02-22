@@ -24,7 +24,6 @@ export function SideBar({user,company,navigationChange,admin}:SideBarProps){
     }
 
 
-    console.log(isSelected)
     return(
         <aside className={styles.sidebar}>
             <img  

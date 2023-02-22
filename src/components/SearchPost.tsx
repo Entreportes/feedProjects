@@ -21,16 +21,16 @@ export function SearchPost(){
         name: 'Renato Henz',
         role: 'CEO MHSW'
       },
-      content:{ 
-        title: 'Como funciona a contabilidade de uma empresa',
-        tags: ['contabilidade', 'BI'],
-        paragragh: 'Empreendedores nem sempre dão a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
-        link: 'http://cerbasi.site/grade-opd-yt',
-        video:'iYma9_gpEUQ',
+      
+      title: 'Como funciona a contabilidade de uma empresa',
+      tags: 'contabilidade BI',
+      description: 'Empreendedores nem sempre dão a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
+      link1: 'http://cerbasi.site/grade-opd-yt',
+      video:'iYma9_gpEUQ',
 
-      }            
-      ,
-      publishedAt: parseISO('2022-11-01 19:00:00')
+                 
+      
+      createdAt: parseISO('2022-11-01 19:00:00')
       },
       {
         id:'2',
@@ -39,16 +39,13 @@ export function SearchPost(){
           name: 'Lucas Entreportes',
           role: 'Engineer'
         },
-        content:{ 
-          title: 'Titulo2',
-          tags: ['contabilidade', 'BI'],
-          paragragh: 'Empreendedores nem sempre dão a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
-          link: 'http://cerbasi.site/grade-opd-yt',
-          video:'iYma9_gpEUQ',
+        title: 'Titulo2',
+        tags: 'contabilidade BI',
+        description: 'Empreendedores nem sempre dão a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
+        link1: 'http://cerbasi.site/grade-opd-yt',
+        video:'iYma9_gpEUQ',
   
-        }            
-        ,
-        publishedAt: parseISO('2022-11-01 19:00:00')
+        createdAt: parseISO('2022-11-01 19:00:00')
       },
       {
         id:'3',
@@ -57,16 +54,14 @@ export function SearchPost(){
           name: 'Carolina',
           role: 'Deusa'
         },
-        content:{ 
-          title: 'Empresa',
-          tags: ['contabilidade', 'empresa'],
-          paragragh: 'Empreendedores nem sempre dão a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
-          link: 'http://cerbasi.site/grade-opd-yt',
-          video:'iYma9_gpEUQ',
+        title: 'Empresa',
+        tags: 'contabilidade empresa',
+        description: 'Empreendedores nem sempre dão a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
+        link1: 'http://cerbasi.site/grade-opd-yt',
+        video:'iYma9_gpEUQ',
   
-        }            
-        ,
-        publishedAt: parseISO('2022-11-01 19:00:00')
+       
+        createdAt: parseISO('2022-11-01 19:00:00')
         },
         {
         id:'4',
@@ -75,14 +70,12 @@ export function SearchPost(){
           name: 'Diego Fernandes',
           role: 'CTO @ Rocketseat'
         },
-        content:{ 
           title: 'Como funciona a contabilidade de uma empresa',
-          tags: ['NLW', 'Rocket'],
-          paragragh: 'Fala galera, \n Mais uma edição do NLW!',
-          link: 'jane.design/doctorcare',  
-        }            
-        ,
-        publishedAt: parseISO('2022-11-01 19:00:00')
+          tags: 'NLW Rocket',
+          description: 'Fala galera, \n Mais uma edição do NLW!',
+          link1: 'jane.design/doctorcare',  
+          
+        createdAt: parseISO('2022-11-01 19:00:00')
         }]
     ) 
     const [post,setPost] =useState<PostProps[]>([]);
@@ -98,7 +91,7 @@ export function SearchPost(){
     setPost([])
     setCardOption(false)
     console.log('procurar por titulo')
-    const found = posts.filter((post)=>post.content.title === title)
+    const found = posts.filter((post)=>post.title === title)
     { found != undefined ? setPost(found) : console.log('nao achou') }
     console.log(post)        
 
@@ -107,11 +100,11 @@ export function SearchPost(){
     setPost([])
     setCardOption(false)
     console.log('procurar por Tags')
-    // const found = posts.filter((post)=>post.content.tags ? post.content.tags[0] === tag : undefined)
-    const found = posts.filter((post) => post.content.tags?.find((tag_aux) => tag_aux === tag ))
-    console.log(found)
-    { found != undefined ? setPost(found) : console.log('nao achou') }
-    console.log(post)        
+    // const found = posts.filter((post)=>post.tags ? post.tags[0] === tag : undefined)
+    // const found = posts.filter((post) => post.tags?.find((tag_aux) => tag_aux === tag ))
+    // console.log(found)
+    // { found != undefined ? setPost(found) : console.log('nao achou') }
+    // console.log(post)        
 
   }
   function SearchPostById(id: string){
@@ -196,8 +189,15 @@ export function SearchPost(){
                   <Post
                     id={post.id}
                     author={post.author}
-                    content={post.content}
-                    publishedAt={post.publishedAt}
+                    description={post.description}
+                    createdAt={post.createdAt}
+                    tags={post.tags}
+                    title={post.title}
+                    comments={post.comments}
+                    link1={post.link1}
+                    link2={post.link2}
+                    video={post.video}
+                    updatedAt={post.updatedAt}
                     commentOFF
                     admin={user.admin}
                     card={cardOption}

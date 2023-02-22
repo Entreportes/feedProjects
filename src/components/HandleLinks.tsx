@@ -74,8 +74,8 @@ export function HandleLinks(){
                 )
             })}
             <div className={styles.buttons}>
+                <button type="reset" onClick={addFields}>Adicionar Link</button>
                 <button type="reset" onClick={saveLinks}>Salvar Links</button>
-                <button type="reset" onClick={addFields}>Adicionar Subtítulo</button>
             </div>
         </div>
     )
