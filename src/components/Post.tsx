@@ -159,6 +159,7 @@ export function Post({id, author, tags, createdAt = new Date, title, description
                 </time>
                 
             </header>
+            {admin ?<h6>Id: {id}</h6> :null}
             {!card ? 
             <div className={styles.content}>
                 { title ? <h3>{title}</h3> : null}

@@ -15,6 +15,9 @@ import { useAuth } from '../hooks/useAuth'
 import { UserDTO } from '../dtos/UserDTO'
 import { Dashboard } from '../components/Dashboard'
 import { ManageClient } from '../components/admin/ManageClients'
+import { ArticleCard } from '../components/ArticleCard'
+import { api } from '../services/api'
+import Loading from '../components/Loading'
 
 
 interface Author{
@@ -33,183 +36,172 @@ interface Author{
 // }
 
 
-
 export function Home() {  
 
   const [navigationApp, setNavigationApp] =useState('dashboard')
-  const [articles,setArticles] = useState<ArticleProps[]>([])
+
   
-
-  const [posts,setPosts] = useState<PostProps[]>([
-    {
-    id:'1',
-    author:{
-      avatarUrl: 'https://github.com/renatomh.png',
-      name: 'Renato Henz',
-      role: 'CEO MHSW'
-    },
-    content:{ 
-      title: 'Como funciona a contabilidade de uma empresa',
-      tags: ['contabilidade', 'BI'],
-      paragragh: 'Empreendedores nem sempre dão\n a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
-      link: 'http://cerbasi.site/grade-opd-yt',
-      video:'iYma9_gpEUQ',
-
-    }            
-    ,
-    publishedAt: parseISO('2022-11-01 19:00:00')
-    },
-    {
-      id:'2',
-      author:{
-        avatarUrl: 'https://github.com/entreportes.png',
-        name: 'Lucas Entreportes',
-        role: 'Engineer'
-      },
-      content:{ 
-        title: 'Como funciona a contabilidade de uma empresa',
-        tags: ['contabilidade', 'BI'],
-        paragragh: 'Empreendedores nem sempre dão a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
-        link: 'http://cerbasi.site/grade-opd-yt',
-        video:'iYma9_gpEUQ',
-
-      }            
-      ,
-      publishedAt: parseISO('2022-11-01 19:00:00')
-    },
-    {
-      id:'3',
-      author:{
-        avatarUrl: 'http://t3.gstatic.com/licensed-image?q=tbn:ANd9GcR0KZom0y5vl3t_V4xzrrFenuKIMvsfCGeOXeH8BhAK74ndYNIhluarqybGUoZXzSFa',
-        name: 'Carolina',
-        role: 'Deusa'
-      },
-      content:{ 
-        title: 'Como funciona a contabilidade de uma empresa',
-        tags: ['contabilidade', 'BI'],
-        paragragh: 'Empreendedores nem sempre dão a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
-        link: 'http://cerbasi.site/grade-opd-yt',
-        video:'iYma9_gpEUQ',
-
-      }            
-      ,
-      publishedAt: parseISO('2022-11-01 19:00:00')
-      },
-      {
-      id:'4',
-      author:{
-        avatarUrl: 'https://github.com/diego3g.png',
-        name: 'Diego Fernandes',
-        role: 'CTO @ Rocketseat'
-      },
-      content:{ 
-        title: 'Como funciona a contabilidade de uma empresa',
-        tags: ['NLW', 'Rocket'],
-        paragragh: 'Fala galera, \n Mais uma edição do NLW!',
-        link: 'jane.design/doctorcare',  
-      }            
-      ,
-      publishedAt: parseISO('2022-11-01 19:00:00')
-      }]
-  ) 
   const {user,signOut} = useAuth()
-  console.log('Home ->',user)
+  const [posts,setPosts] = useState<PostProps[] | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+ 
 
-  async function loadDashBoard(){
-    //carregar DashBoard
-  }
+  async function allPosts(){
+    try {
+      setIsLoading(true)
+      const res = await api.get('/post')
+      setPosts(res.data)
+      
+    } catch (error) {
+      
+      throw error
+      
+    }finally{
+      setIsLoading(false)
+
+    }
     
+  }
+  const [articles,setArticles] = useState<ArticleProps[]>([])
+  async function allArticles(){
+    try {
+      setIsLoading(true)
+      const res = await api.get('/article')
+      setArticles(res.data)
+      
+    } catch (error) {
+      
+      throw error
+      
+    }finally{
+      
+      setIsLoading(false)
+    }
+    
+  }
+
   
   useEffect(() =>{
-    loadDashBoard()
-
+    if(navigationApp === 'feed'){
+      allPosts()
+    }
+    if(navigationApp === 'article'){
+      allArticles()
+    }
   },[navigationApp])
   return (
     <div>
 
       <Header
-        name={user.company.name}
+        name={user.company?.fantasyName ? user.company?.fantasyName: 'Contabilidade'}
         signOut={signOut}
       />
 
       <div className={ styles.wrapper } >
         <SideBar
             user={user}
-            company={user.company.name}
+            company={user.company?.fantasyName ? user.company?.fantasyName: 'Contabilidade'}
             navigationChange={setNavigationApp}
             admin={user.admin}
         />
-        <main>
-          {
-            navigationApp === 'dashboard' ?
-            <Dashboard/>
-            :
-            navigationApp === 'feed' ?
-            posts.map(post =>{
-              return(              
-                <Post
-                  key={post.id}
-                  id = {post.id}
-                  author={post.author}
-                  content={post.content}
-                  publishedAt={post.publishedAt}
-                />
-              )
-            })
-            :
-            navigationApp === 'calculator' ?
-              <p>calculator</p>
+        
+        <Loading
+          isLoading={isLoading}
+          text='Carregando...'
+        >
+          <main>
+            {
+              navigationApp === 'dashboard' ?
+              <Dashboard/>
               :
-              navigationApp === 'files' ?
-                <>
-                  <Files
-                    directory='\server\caminho1'
-                    title={navigationApp} 
-                  />
-                  <Files
-                      directory='\server\caminho2'
-                      title='Relatórios' 
-                  />
-                </>
+              navigationApp === 'feed' ?    
+              posts ? 
+                posts.map(post =>{
+                  return(              
+                    <Post
+                      id={post.id}
+                      author={post.author}
+                      description={post.description}
+                      createdAt={post.createdAt}
+                      tags={post.tags}
+                      title={post.title}
+                      video={post.video}
+                      comments={post.comments}
+                      link1={post.link1}
+                      link2={post.link2}
+                      updatedAt={post.updatedAt}
+                      admin={false}
+                    />
+                  )
+                })
+              :
+              <h2>Ainda não posts para serem mostrados</h2>
+              :
+              navigationApp === 'calculator' ?
+                <p>calculator</p>
                 :
-                navigationApp === 'links' ? 
-                  <Links/>
+                navigationApp === 'files' ?
+                  <>
+                    <Files
+                      directory='\server\caminho1'
+                      title={navigationApp} 
+                    />
+                    <Files
+                        directory='\server\caminho2'
+                        title='Relatórios' 
+                    />
+                  </>
                   :
-                  navigationApp === 'article' ? 
-                    <HandleArticle/>
-                    // articles.map(article =>{
-                    //   return(              
-                    //     <Article
-                    //       key={article.id}
-                    //       id = {article.id}
-                    //       author={article.author}
-                    //       content={article.content}
-                    //       publishedAt={article.publishedAt}
-                    //     />
-                    //   )
-                    // })
+                  navigationApp === 'links' ? 
+                    <Links/>
                     :
-                    navigationApp === 'manageClient' ? 
-                      <ManageClient/>
-                      // articles.map(article =>{
-                      //   return(              
-                      //     <Article
-                      //       key={article.id}
-                      //       id = {article.id}
-                      //       author={article.author}
-                      //       content={article.content}
-                      //       publishedAt={article.publishedAt}
-                      //     />
-                      //   )
-                      // })
+                    navigationApp === 'article' ? 
+                      articles ? 
+                      articles.map(article =>{
+                        return(              
+                          <ArticleCard
+                            key={article.id}
+                            id={article.id}
+                            author={article.author}
+                            content={article.content}
+                            createdAt={article.createdAt}
+                            abstract={article.abstract}
+                            references={article.references}
+                            tags={article.tags} 
+                            title={article.title}
+                            link1={article.link1}
+                            link2={article.link2}
+                            updatedAt={article.updatedAt}
+                          />
+                        )
+                      })
                       :
-                    <p>Desculpe, Houston, tivemos um problema, entre em contato com o administrador.</p>
-              }
+                      <h2>Ainda não Artigos para serem mostrados</h2>
+                      :
+                      navigationApp === 'manageClient' ? 
+                        <ManageClient
+                          setIsLoading={setIsLoading}
+                        />
+                        // articles.map(article =>{
+                        //   return(              
+                        //     <Article
+                        //       key={article.id}
+                        //       id = {article.id}
+                        //       author={article.author}
+                        //       content={article.content}
+                        //       publishedAt={article.publishedAt}
+                        //     />
+                        //   )
+                        // })
+                        :
+                      <p>Desculpe, Houston, tivemos um problema, entre em contato com o administrador.</p>
+                }
+              
             
-          
-          
-          
-        </main>
+            
+            
+          </main>
+        </Loading>
       </div>
     </div>
 

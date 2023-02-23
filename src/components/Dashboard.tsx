@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { number } from 'yup';
 import styles from './Dashboard.module.css';
+import SalesChart, { SalesData } from './graphic/SalesChart';
+import ToRecieve from './graphic/ToRecieve';
 
 interface Data {
   id: number;
@@ -13,6 +16,26 @@ export function Dashboard(){
   const [data, setData] = useState<Data[]>([]);
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [totalIncome, setTotalIncome] = useState(0);
+
+ 
+  const salesData = {
+    cash: 5000,
+    credit: 8000,
+  };
+  const sampleData: SalesData[] = [
+    { month: 'Jan', cash: 5000, credit: 8000 },
+    { month: 'Feb', cash: 7500, credit: 10000 },
+    { month: 'Mar', cash: 10000, credit: 12000 },
+    { month: 'Apr', cash: 12500, credit: 14000 },
+    { month: 'May', cash: 15000, credit: 16000 },
+    { month: 'Jun', cash: 17500, credit: 18000 },
+    { month: 'Jul', cash: 20000, credit: 20000 },
+    { month: 'Aug', cash: 22500, credit: 22000 },
+    { month: 'Sep', cash: 25000, credit: 24000 },
+    { month: 'Oct', cash: 27500, credit: 26000 },
+    { month: 'Nov', cash: 30000, credit: 28000 },
+    { month: 'Dec', cash: 32500, credit: 30000 },
+  ];
   function loadData() {
     const response = [
       {
@@ -65,29 +88,16 @@ export function Dashboard(){
 
   return (
     <div className={styles.container}>
-      <h2>Accounting Dashboard</h2>
-      <h3>Total Income: {totalIncome}</h3>
-      <h3>Total Expenses: {totalExpenses}</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Value</th>
-            <th>Category</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map(item => (
-            <tr key={item.id}>
-              <td>{item.date}</td>
-              <td>{item.description}</td>
-              <td>{item.value}</td>
-              <td>{item.category}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <SalesChart
+        salesData={sampleData}
+      />
+      
+      <div>
+        <ToRecieve
+          data={salesData}
+        />
+
+      </div>
     </div>
   );
 };

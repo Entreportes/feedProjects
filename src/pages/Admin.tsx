@@ -37,80 +37,9 @@ export function Admin() {
   const [navigationApp, setNavigationApp] =useState<'dashboard'|'article'|'links'|'feed'|'calculator'|'files'|'admin'|string>('admin')
 
   const {user,signOut} = useAuth()
-  const [posts,setPosts] = useState<PostProps[] | null>(null)
+  const [posts,setPosts] = useState<PostProps[]>([])
   const [isLoading, setIsLoading] = useState(false)
-  // const [posts,setPosts] = useState<PostProps[]>([
-  //   {
-  //   id:'1',
-  //   author:{
-  //     avatarUrl: 'https://github.com/renatomh.png',
-  //     name: 'Renato Henz',
-  //     role: 'CEO MHSW'
-  //   },
-  //   content:{ 
-  //     title: 'Como funciona a contabilidade de uma empresa',
-  //     tags: ['contabilidade', 'BI'],
-  //     paragragh: 'Empreendedores nem sempre dão\n a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
-  //     link: 'http://cerbasi.site/grade-opd-yt',
-  //     video:'iYma9_gpEUQ',
-
-  //   }            
-  //   ,
-  //   publishedAt: parseISO('2022-11-01 19:00:00')
-  //   },
-  //   {
-  //     id:'2',
-  //     author:{
-  //       avatarUrl: 'https://github.com/entreportes.png',
-  //       name: 'Lucas Entreportes',
-  //       role: 'Engineer'
-  //     },
-  //     content:{ 
-  //       title: 'Como funciona a contabilidade de uma empresa',
-  //       tags: ['contabilidade', 'BI'],
-  //       paragragh: 'Empreendedores nem sempre dão a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
-  //       link: 'http://cerbasi.site/grade-opd-yt',
-  //       video:'iYma9_gpEUQ',
-
-  //     }            
-  //     ,
-  //     publishedAt: parseISO('2022-11-01 19:00:00')
-  //   },
-  //   {
-  //     id:'3',
-  //     author:{
-  //       avatarUrl: 'http://t3.gstatic.com/licensed-image?q=tbn:ANd9GcR0KZom0y5vl3t_V4xzrrFenuKIMvsfCGeOXeH8BhAK74ndYNIhluarqybGUoZXzSFa',
-  //       name: 'Carolina',
-  //       role: 'Deusa'
-  //     },
-  //     content:{ 
-  //       title: 'Como funciona a contabilidade de uma empresa',
-  //       tags: ['contabilidade', 'BI'],
-  //       paragragh: 'Empreendedores nem sempre dão a devida atenção à contabilidade de seus negócios. \nUm cuidado maior com as finanças da empresa permite um entendimento mais claro sobre o balanço financeiro e a demonstração de resultados, dois pontos fundamentais. Pensando nisso, preparei uma miniaula sobre contabilidade. Assista!',
-  //       link: 'http://cerbasi.site/grade-opd-yt',
-  //       video:'iYma9_gpEUQ',
-
-  //     }            
-  //     ,
-  //     publishedAt: parseISO('2022-11-01 19:00:00')
-  //     },
-  //     {
-  //     id:'4',
-  //     author:{
-  //       avatarUrl: 'https://github.com/diego3g.png',
-  //       name: 'Diego Fernandes',
-  //       role: 'CTO @ Rocketseat'
-  //     },
-  //     content:{ 
-  //       title: 'Como funciona a contabilidade de uma empresa',
-  //       tags: ['NLW', 'Rocket'],
-  //       paragragh: 'Fala galera, \n Mais uma edição do NLW!',
-  //       link: 'jane.design/doctorcare',  
-  //     }            
-  //     ,
-  //     publishedAt: parseISO('2022-11-01 19:00:00')
-  //     }]
-  // )
+ 
 
   async function allPosts(){
     try {
@@ -150,10 +79,11 @@ export function Admin() {
   
 
   useEffect(() =>{
-    if(navigationApp === 'feed'){
+    if(navigationApp === 'feed' && posts.length < 1 ){
+      console.log('entrou aqui')
       allPosts()
     }
-    if(navigationApp === 'article'){
+    if(navigationApp === 'article' && articles.length < 1){
       allArticles()
     }
   },[navigationApp])

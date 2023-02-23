@@ -17,6 +17,7 @@ const Loading: React.FC<LoadingButtonProps> = ({ isLoading, children , text}) =>
     active: isLoading,
     spinner: true,
     text: text,
+    styles: {},
   };
 
   return (
